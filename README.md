@@ -13,12 +13,12 @@ HLERS is a web application that:
 ## Tech Stack
 - **Frontend:** React.js
 - **Backend:** Node.js + Express
-- **Database:** MongoDB
+- - **Database:** MongoDB with Mongoose ODM + GeoJSON geospatial indexing
 - **Maps:** Google Maps API (Directions, Places, Geocoding)
 - **ML:** Python + scikit-learn (hospital recommendation scoring)
 
 ## Project Status
-🟡 In active development — Day 1
+🟡 In active development — Day 3
 
 ## Developer
 Manjiri Kench — Pune, India
