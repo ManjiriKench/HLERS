@@ -1,15 +1,9 @@
 const mongoose = require('mongoose');
-const emergencyRequestSchema = new mongose.Schema({
+const emergencyRequestSchema = new mongoose.Schema({
     emergencyType:{
         type:String,
         required:true,
         enum:['cardiac','trauma','burns','stroke','other']
-    },
-    patientName:{
-        type:Number,
-        required:true,
-        min:0,
-        max:120
     },
     patientAge:{
         type:Number,
@@ -35,7 +29,7 @@ const emergencyRequestSchema = new mongose.Schema({
         }
     },
     recommendedHospital:{
-        type:mongose.Schema.Types.ObjectId,
+        type:mongoose.Schema.Types.ObjectId,
         ref:'Hospital',
         default:null
     },
@@ -43,9 +37,9 @@ const emergencyRequestSchema = new mongose.Schema({
         type:String,
         enum:['pending','routed','admitted'],
         default:'pending'
-    },
+    }
 }, {
-        timestamps:true
+    timestamps:true
     });
 emergencyRequestSchema.index({userLocation: '2dsphere'});
 const EmergencyRequest = mongoose.model('EmergencyRequest', emergencyRequestSchema);
