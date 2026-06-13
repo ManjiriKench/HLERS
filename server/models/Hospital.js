@@ -18,7 +18,7 @@ const specialistSchema = new mongoose.Schema({
     
 });
 
-const hospitalSchema = new mongoose.Schemama({
+const hospitalSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true,
@@ -48,7 +48,7 @@ const hospitalSchema = new mongoose.Schemama({
     },
     emergencyTypes: {
         type: [String],
-        enum: ['cardiac','trauma','burns','general'],
+        enum: ['cardiac','trauma','burns','general','stroke'],
         required: true
     },
     totalICUBeds: {
@@ -61,21 +61,25 @@ const hospitalSchema = new mongoose.Schemama({
         required: true,
         min: 0
     },
-    emergencydeptopen:{
+    specialists: {
+    type: [specialistSchema],
+    default: []
+    },
+    emergencyDeptOpen:{
         type: Boolean,
         required: true,
         default: false
     },
-    currentload: {
+    currentLoad: {
         type: Number,
         required: true,
         min: 0,
         max: 10,
         default: 0
     },
-    lastupdated: {
+    lastUpdated: {
         type: Date,
-        ddefault: Date.now
+        default: Date.now
     }
 });
 hospitalSchema.index({ location: '2dsphere'});
