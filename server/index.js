@@ -4,6 +4,8 @@ const dotenv = require('dotenv');
 const cors = require('cors');
 const helmet = require('helmet');
 const hospitalRoutes = require('./routes/hospitalRoutes');
+const emergencyRoutes = require('./routes/emergencyRoutes');
+const alertRoutes = require('./routes/alertRoutes');
 
 dotenv.config();
 const app = express();
@@ -13,6 +15,8 @@ app.use(helmet());
 app.use(cors());
 app.use(express.json({limit: '10kb'}));
 app.use('/api/hospitals', hospitalRoutes);
+app.use('/api/emergencies',emergencyRoutes);
+app.use('/api/alerts',alertRoutes);
 
 mongoose.connect(process.env.MONGODB_URI).then(() => {
     console.log('MongoDB connected successfully');
