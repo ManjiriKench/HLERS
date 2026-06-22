@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Hospital = require('../models/Hospital');
+const {getETA} = require('../services/mapsService');
 
 router.get('/',async(req,res)=> {
     try{
@@ -97,5 +98,51 @@ router.post('/', async(req,res)=>{
             });
         }
     
+    });
+    router.post('/nearby',async(req,res)=>{
+        try{
+            const{ longitude, latitude, emergencyType, maxDistance } = req.body;
+            if(!longitude || !latitude || !emergencyType) {
+                return res.status(400).json({
+                    success:false,
+                    message:'Longitude, latitude and emergency type are required'
+                });
+            }
+            const hospitals = await Hospital.find({
+                location: {
+                    $near: {
+                        $geometry:{
+                            type: 'Point',
+                            coordinates: [longitude, latitude]
+                        },
+                        $maxDistance: maxDistance || 10000
+                    }
+                },
+                emergencyDeptOpen: true,
+                emergencyTypes: emergencyType
+            });
+            const hospitalsWithETA = await Promise.all(
+                hospitals.map(async(hospital) => {
+                    const eta = await getETA(
+                        [longitude, latitude],
+                        hospital.location.coordinates
+                    );
+                    return {
+                        ...hospital.toObject(),
+                        eta
+                    };
+                })
+            );
+            res.status(200).json({
+                success: true,
+                count: hospitalsWithETA.length,
+                data: hospitalsWithETA
+            });
+        } catch(error) {
+            res.status(500).json({
+                success:false,
+                message: 'Server error while finding nearby hospitals'
+            });
+        }
     });
 module.exports = router;
