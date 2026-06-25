@@ -3,13 +3,36 @@ const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const cors = require('cors');
 const helmet = require('helmet');
+const rateLimit = require('express-rate-limit');
 const hospitalRoutes = require('./routes/hospitalRoutes');
 const emergencyRoutes = require('./routes/emergencyRoutes');
 const alertRoutes = require('./routes/alertRoutes');
 
+
 dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
+const globalLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 100,
+  message: {
+    success: false,
+    message: 'Too many requests, please try again after 15 minutes'
+  },
+  standardHeaders: true,
+  legacyHeaders: false
+});
+
+const emergencyLimiter = rateLimit({
+  windowMs: 60 * 1000,
+  max: 10,
+  message: {
+    success: false,
+    message: 'Too many emergency requests, please try again after 1 minute'
+  },
+  standardHeaders: true,
+  legacyHeaders: false
+});
 
 app.use(helmet());
 app.use(cors());
