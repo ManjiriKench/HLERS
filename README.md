@@ -18,7 +18,7 @@ HLERS is a web application that:
 - **ML:** Python + scikit-learn (hospital recommendation scoring)
 
 ## Project Status
-🟡 In active development — Day 7
+🟡 In active development — Day 9
 
 ## Developer
 Manjiri Kench — Pune, India
