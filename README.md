@@ -16,6 +16,7 @@ HLERS is a web application that:
 - - **Database:** MongoDB with Mongoose ODM + GeoJSON geospatial indexing
 - - **Maps:** Google Maps API — Directions API returning real ETAs, geospatial hospital search working
 - **ML:** Python + scikit-learn (hospital recommendation scoring)
+- **Security:** Helmet.js, custom NoSQL sanitizer, rate limiting, HPP, input validation
 
 ## Project Status
 🟡 In active development — Day 9
