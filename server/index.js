@@ -7,7 +7,8 @@ const rateLimit = require('express-rate-limit');
 const hospitalRoutes = require('./routes/hospitalRoutes');
 const emergencyRoutes = require('./routes/emergencyRoutes');
 const alertRoutes = require('./routes/alertRoutes');
-
+const sanitizeRequest = require('./middleware/sanitize');
+const hpp = require('hpp');
 
 dotenv.config();
 const app = express();
@@ -37,6 +38,8 @@ const emergencyLimiter = rateLimit({
   app.use(helmet());
   app.use(cors());
   app.use(express.json({ limit: '10kb' }));
+  app.use(sanitizeRequest);
+  app.use(hpp());
   app.use(globalLimiter);
   app.use('/api/hospitals', hospitalRoutes);
   app.use('/api/emergencies', emergencyLimiter, emergencyRoutes);
