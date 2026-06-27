@@ -1,3 +1,8 @@
+// Custom NoSQL Injection Sanitizer
+// Written for HLERS — Node.js v24 compatible
+// Strips MongoDB operators ($gt, $where, $regex) from all incoming requests
+// Prevents attackers from injecting query operators through request body or params
+
 const sanitizeInput = (obj) => {
   if (typeof obj !== 'object' || obj === null) return obj;
   for (const key in obj) {
