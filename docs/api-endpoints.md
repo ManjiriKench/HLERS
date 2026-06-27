@@ -40,3 +40,12 @@ Returns all alerts with hospital name, address and phone populated.
 5 real Pune hospitals seeded — Ruby Hall Clinic, Deenanath Mangeshkar,
 KEM Hospital, Sassoon General, Jehangir Hospital.
 All endpoints tested and verified (Day 6)
+
+## Security Layers Active on All Endpoints
+
+- Rate limiting: 100 requests per 15 minutes (global)
+- Emergency endpoints: 10 requests per minute
+- NoSQL injection sanitization on all request bodies
+- HTTP Parameter Pollution protection
+- JSON payload size limit: 10kb
+- All endpoints tested and security verified (Day 8)
