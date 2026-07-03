@@ -19,7 +19,8 @@ HLERS is a web application that:
 - **Security:** Helmet.js, custom NoSQL sanitizer, rate limiting, HPP, input validation
 
 ## Project Status
-🟡 In active development — Day 9
+🟡 In active development — Day 10
+Frontend initialized with React + Vite, routing configured, all pages scaffolded.
 
 ## Developer
 Manjiri Kench — Pune, India
