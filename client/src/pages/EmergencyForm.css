@@ -1,0 +1,125 @@
+.form-container {
+    max-width: 480px;
+    margin: 0 auto;
+    padding: 24px 16px;
+    min-height:100vh;
+    background-color: #ffffff;
+}
+
+.form-header {
+    margin-bottom: 32px;
+    text-align: center;
+}
+
+.form-header p {
+    font-size: 1rem;
+    color: #666;
+}
+
+.form-section {
+    margin-bottom: 28px;
+}
+
+.form-section h2 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 12px;
+}
+
+.emergency-types {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+}
+
+.type-btn {
+    padding: 14px 8px;
+    border: 2px solid #e0e0e0;
+    border-radius: 10px;
+    background: #fff;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #333;
+    transition: all 0.2s ease;
+}
+
+.type-btn:hover {
+    border-color: #d32f2f;
+    color: #d32f2f;
+}
+
+.type-btn.selected {
+    background-color:#d32f2f;
+    border-color: #d32f2f;
+    color: #ffffff;
+}
+
+.age-input:focus {
+    border-color: #d32f2f;
+}
+
+.notes-input {
+    width: 100%
+    padding 14px 16px;
+    border: 2px solid #e0e0e0;
+    border-radius: 10px;
+    font-size: 1rem;
+    resize: none;
+    transition: border-color 0.2s ease;
+}
+
+.notes-input:focus {
+  border-color: #d32f2f;
+}
+
+.char-count {
+    font-size: 0.75rem;
+    color: #999;
+    text-align: right;
+    margin-top: 4px;
+}
+
+.location-btn {
+    width: 100%;
+    padding: 14px;
+    border: 2px solid #1976d2;
+    border-radius: 10px;
+    background: #fff;
+    color: #1976d2;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.location-btn:hover {
+    background: #1976d2;
+    color: #fff;
+}
+
+.error-text {
+    color: #d32f2f;
+    font-size: 0.875rem;
+    margin-top: 8px;
+}
+
+.submit-btn {
+    width: 100%;
+    padding: 16px;
+    background-color: #d32f2f;
+    color: #ffffff;
+    border-radius: 10px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    transition: background-color 0.2s ease;
+    margin-top: 8px;
+}
+
+.submit-btn:hover{
+    background-color: #b71c1c;
+}
+
+.submit-btn:disabled {
+    background-color: #0e0e0e;
+    color: #999;
+    cursor: not-allowed;
+}
