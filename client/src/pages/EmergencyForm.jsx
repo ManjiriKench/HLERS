@@ -136,19 +136,19 @@ function EmergencyForm() {
           className="location-btn"
           onClick={detectLocation}
         >
-          {location ? 'Location detected' : 'Detect my location'}
+          { location ? 'Location detected' : 'Detect my location' }
         </button>
-        {locationError && <p className="error-text">{locationError}</p>}
+        { locationError && <p className="error-text">{locationError}</p> }
       </div>
 
-      {error && <p className="error-text">{error}</p>}
+      { error && <p className="error-text">{error}</p> }
 
       <button
         className="submit-btn"
         onClick={handleSubmit}
         disabled={loading}
       >
-        {loading ? <LoadingSpinner /> : 'Find Hospitals Now'}
+        { loading ? <LoadingSpinner /> : 'Find Hospitals Now' }
       </button>
     </div>
   )
