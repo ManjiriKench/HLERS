@@ -19,7 +19,7 @@ HLERS is a web application that:
 - **Security:** Helmet.js, custom NoSQL sanitizer, rate limiting, HPP, input validation
 
 ## Project Status
-🟡 In active development — Day 13
+🟡 In active development — Day 22
 The frontend is live with functional template as a base. More improvements will be added soon.
 
 ## Screenshots
