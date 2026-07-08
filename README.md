@@ -22,5 +22,38 @@ HLERS is a web application that:
 🟡 In active development — Day 13
 The frontend is live with functional template as a base. More improvements will be added soon.
 
+## Screenshots
+
+### Hospital Results with Google Maps
+- Real-time Google Maps view with hospital markers
+- Live ICU bed count, ETA, specialist availability
+- Pre-arrival alert system
+- Color-coded emergency load indicator
+
+## Live Demo
+Coming soon — deployment in progress
+
+## How to Run Locally
+
+### Backend
+```bash
+cd server
+npm install
+npm run dev
+```
+
+### Frontend
+```bash
+cd client
+npm install
+npm run dev
+```
+
+### Seed Database
+```bash
+cd server
+node seed.js
+```
+
 ## Developer
 Manjiri Kench — Pune, India
