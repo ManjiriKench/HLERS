@@ -49,3 +49,28 @@ All endpoints tested and verified (Day 6)
 - HTTP Parameter Pollution protection
 - JSON payload size limit: 10kb
 - All endpoints tested and security verified (Day 8)
+
+## Frontend Routes
+
+### / (Home)
+Landing page with problem statement and Report Emergency button.
+
+### /emergency (Emergency Form)
+30-second emergency form with:
+- Emergency type selection (cardiac, trauma, burns, stroke, other)
+- Patient age input
+- Optional notes (max 100 chars)
+- Auto location detection from browser
+
+### /hospitals (Hospital List)
+Results page showing:
+- Google Maps view with hospital markers and user location
+- Ranked hospital cards with ETA, ICU beds, load, specialists
+- Pre-arrival alert button per hospital
+
+### * (404 NotFound)
+Catch-all route for unmatched URLs.
+
+## Frontend Status
+All pages built and tested — Day 12
+Full flow working: Emergency Form → Hospital List → Alert Hospital
