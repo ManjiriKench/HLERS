@@ -2,11 +2,12 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import { useState } from 'react'
 import { sendAlert } from '../services/api'
 import './HospitalList.css'
+import MapView from '../components/MapView'
 
 function HospitalList() {
   const location = useLocation()
   const navigate = useNavigate()
-  const { hospitals, emergencyType } = location.state || {}
+  const { hospitals, emergencyType, userLocation } = location.state || {}
   const [alertSent, setAlertSent] = useState({})
   const [alertError, setAlertError] = useState('')
 
@@ -49,6 +50,13 @@ function HospitalList() {
       </div>
 
       {alertError && <p className="error-text">{alertError}</p>}
+
+      <div className="map-wrapper">
+        <MapView
+          hospitals={hospitals}
+          userLocation={userLocation}
+        />
+      </div>
 
       <div className="hospital-list">
         {hospitals.map((hospital, index) => (
