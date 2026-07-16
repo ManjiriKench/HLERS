@@ -2,10 +2,11 @@ import numpy as np
 from sklearn.preprocessing import MinMaxScaler
 
 WEIGHTS = {
-    'emergency_match': 0.35,
+    'emergency_match': 0.30,
     'icu_availability': 0.25,
-    'current_load': 0.25,
-    'eta': 0.15
+    'current_load': 0.20,
+    'eta': 0.15,
+    'emergency_open': 0.10
 }
 
 EMERGENCY_SPECIALIST_MAP ={ 
@@ -28,6 +29,7 @@ def score_hospitals(hospitals, emergency_type):
         total_beds = hospital.get('totalICUBeds', 1)
         current_load = hospital.get('currentLoad', 0)
         emergency_types = hospital.get('emergencyTypes', [])
+        emergency_open = 1 if hospital.get('emergencyDeptOpen') else 0
 
         bed_availability_ratio = (
             available_beds / total_beds if total_beds > 0 else 0
