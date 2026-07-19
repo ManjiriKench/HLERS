@@ -29,7 +29,6 @@ def score_hospitals(hospitals, emergency_type):
         total_beds = hospital.get('totalICUBeds', 1)
         current_load = hospital.get('currentLoad', 0)
         emergency_types = hospital.get('emergencyTypes', [])
-        emergency_open = 1 if hospital.get('emergencyDeptOpen') else 0
 
         bed_availability_ratio = (
             available_beds / total_beds if total_beds > 0 else 0
