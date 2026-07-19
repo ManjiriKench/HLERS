@@ -1,12 +1,13 @@
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useState } from 'react'
 import { sendAlert } from '../services/api'
+import './HospitalList.css'
 import MapView from '../components/MapView'
 
 function HospitalList() {
   const location = useLocation()
   const navigate = useNavigate()
-  const { hospitals, emergencyType, userLocation } = location.state || {}
+  const { hospitals, emergencyType, userLocation, recommendation } = location.state || {}
   const [alertSent, setAlertSent] = useState({})
   const [alertError, setAlertError] = useState('')
 
@@ -47,6 +48,15 @@ function HospitalList() {
         <h1>Nearby Hospitals</h1>
         <p className="emergency-badge">{emergencyType?.toUpperCase()}</p>
       </div>
+      {recommendation && (
+      <div className="recommendation-banner">
+      <p className="recommendation-label">⭐ HLERS Recommends</p>
+      <h2 className="recommendation-name">{recommendation.name}</h2>
+      <p className="recommendation-details">
+      {recommendation.eta?.duration} away · {recommendation.availableICUBeds} ICU beds available
+    </p>
+  </div>
+)}
 
       {alertError && <p className="error-text">{alertError}</p>}
 
@@ -66,9 +76,16 @@ function HospitalList() {
                 <h2>{hospital.name}</h2>
                 <p className="address">{hospital.address}</p>
               </div>
-              <span className={`status-badge ${hospital.emergencyDeptOpen ? 'open' : 'closed'}`}>
-                {hospital.emergencyDeptOpen ? 'OPEN' : 'CLOSED'}
-              </span>
+              <div className="card-header-right">
+                {hospital.hlers_score && (
+                  <span className="hlers-score">
+                    {hospital.hlers_score}
+                  </span>
+                )}
+                <span className={`status-badge ${hospital.emergencyDeptOpen ? 'open' : 'closed'}`}>
+                  {hospital.emergencyDeptOpen ? 'OPEN' : 'CLOSED'}
+                </span>
+              </div>
             </div>
 
             <div className="card-stats">

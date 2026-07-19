@@ -65,13 +65,14 @@ function EmergencyForm() {
                 }
             })
 
-            navigate('/hospitals',{
-                state: {
-                    hospitals: nearbyResponse.data.data,
-                    emergencyType,
-                    userLocation: location
-                }
-            })
+            navigate('/hospitals', {
+              state: {
+              hospitals: nearbyResponse.data.data,
+              emergencyType,
+              userLocation: location,
+              recommendation: nearbyResponse.data.recommendation
+            }
+        })
         } catch (err) {
             console.error(err)
             setError('Something went wrong. Please try again.')
