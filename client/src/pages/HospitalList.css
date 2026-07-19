@@ -1,7 +1,7 @@
 .list-container {
-  max-width: 600px;
+  max-width: 1200px;
   margin: 0 auto;
-  padding: 24px 16px;
+  padding: 24px 32px;
   min-height: 100vh;
   background-color: #f8f9fa;
 }
@@ -112,8 +112,8 @@
 }
 
 .hospital-list {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   gap: 16px;
 }
 
@@ -303,4 +303,101 @@
   color: #d32f2f;
   font-size: 0.875rem;
   margin-bottom: 12px;
+}
+
+.main-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  align-items: start;
+}
+
+.left-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.right-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  position: sticky;
+  top: 80px;
+}
+
+.recommendation-card {
+  background: linear-gradient(135deg, #d32f2f, #b71c1c);
+  color: #ffffff;
+  padding: 20px;
+  border-radius: 14px;
+}
+
+.recommendation-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  opacity: 0.85;
+  margin-bottom: 8px;
+}
+
+.recommendation-name {
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.recommendation-details {
+  font-size: 0.85rem;
+  opacity: 0.9;
+  margin-bottom: 16px;
+}
+
+.recommendation-stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+  background: rgba(255,255,255,0.15);
+  border-radius: 10px;
+  padding: 12px;
+  margin-bottom: 16px;
+}
+
+.recommendation-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.recommendation-stat-value {
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.recommendation-stat-label {
+  font-size: 0.65rem;
+  opacity: 0.8;
+  text-transform: uppercase;
+}
+
+.recommendation-alert-btn {
+  width: 100%;
+  padding: 12px;
+  background: #ffffff;
+  color: #d32f2f;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  transition: all 0.2s ease;
+}
+
+.recommendation-alert-btn:hover {
+  background: #f5f5f5;
+}
+
+.recommendation-alert-btn.sent {
+  background: #e8f5e9;
+  color: #2e7d32;
+  cursor: not-allowed;
 }

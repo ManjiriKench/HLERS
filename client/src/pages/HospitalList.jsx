@@ -39,106 +39,136 @@ function HospitalList() {
     }
   }
 
-  return (
-    <div className="list-container">
-      <div className="list-header">
-        <button onClick={() => navigate('/emergency')} className="back-btn">
-          Back
-        </button>
-        <h1>Nearby Hospitals</h1>
-        <p className="emergency-badge">{emergencyType?.toUpperCase()}</p>
-      </div>
-      {recommendation && (
-      <div className="recommendation-banner">
-      <p className="recommendation-label">⭐ HLERS Recommends</p>
-      <h2 className="recommendation-name">{recommendation.name}</h2>
-      <p className="recommendation-details">
-      {recommendation.eta?.duration} away · {recommendation.availableICUBeds} ICU beds available
-    </p>
-  </div>
-)}
+ return (
+  <div className="list-container">
+    <div className="list-header">
+      <button onClick={() => navigate('/emergency')} className="back-btn">
+        Back
+      </button>
+      <h1>Nearby Hospitals</h1>
+      <p className="emergency-badge">{emergencyType?.toUpperCase()}</p>
+    </div>
 
-      {alertError && <p className="error-text">{alertError}</p>}
+    {alertError && <p className="error-text">{alertError}</p>}
 
-      <div className="map-wrapper">
-        <MapView
-          hospitals={hospitals}
-          userLocation={userLocation}
-        />
-      </div>
+    <div className="main-layout">
+      <div className="left-panel">
 
-      <div className="hospital-list">
-        {hospitals.map((hospital, index) => (
-          <div key={hospital._id} className="hospital-card">
-            <div className="card-header">
-              <span className="rank">#{index + 1}</span>
-              <div className="card-title">
-                <h2>{hospital.name}</h2>
-                <p className="address">{hospital.address}</p>
+        {recommendation && (
+          <div className="recommendation-card">
+            <p className="recommendation-label">⭐ HLERS Recommends</p>
+            <h2 className="recommendation-name">{recommendation.name}</h2>
+            <p className="recommendation-details">{recommendation.address}</p>
+            <div className="recommendation-stats">
+              <div className="recommendation-stat">
+                <span className="recommendation-stat-value">{recommendation.eta?.duration || 'N/A'}</span>
+                <span className="recommendation-stat-label">ETA</span>
               </div>
-              <div className="card-header-right">
-                {hospital.hlers_score && (
-                  <span className="hlers-score">
-                    {hospital.hlers_score}
-                  </span>
-                )}
-                <span className={`status-badge ${hospital.emergencyDeptOpen ? 'open' : 'closed'}`}>
-                  {hospital.emergencyDeptOpen ? 'OPEN' : 'CLOSED'}
-                </span>
+              <div className="recommendation-stat">
+                <span className="recommendation-stat-value">{recommendation.eta?.distance || 'N/A'}</span>
+                <span className="recommendation-stat-label">Distance</span>
+              </div>
+              <div className="recommendation-stat">
+                <span className="recommendation-stat-value">{recommendation.availableICUBeds}/{recommendation.totalICUBeds}</span>
+                <span className="recommendation-stat-label">ICU Beds</span>
+              </div>
+              <div className="recommendation-stat">
+                <span className="recommendation-stat-value">{recommendation.currentLoad}/10</span>
+                <span className="recommendation-stat-label">Load</span>
               </div>
             </div>
-
-            <div className="card-stats">
-              <div className="stat">
-                <span className="stat-value">{hospital.eta?.duration || 'N/A'}</span>
-                <span className="stat-label">ETA</span>
-              </div>
-              <div className="stat">
-                <span className="stat-value">{hospital.eta?.distance || 'N/A'}</span>
-                <span className="stat-label">Distance</span>
-              </div>
-              <div className="stat">
-                <span className={`stat-value ${hospital.availableICUBeds === 0 ? 'red' : 'green'}`}>
-                  {hospital.availableICUBeds}/{hospital.totalICUBeds}
-                </span>
-                <span className="stat-label">ICU Beds</span>
-              </div>
-              <div className="stat">
-                <span className={`stat-value ${hospital.currentLoad >= 8 ? 'red' : hospital.currentLoad >= 5 ? 'orange' : 'green'}`}>
-                  {hospital.currentLoad}/10
-                </span>
-                <span className="stat-label">Load</span>
-              </div>
-            </div>
-
-            {hospital.specialists && hospital.specialists.length > 0 && (
-              <div className="specialists">
-                <p className="specialists-label">Specialists:</p>
-                <div className="specialist-list">
-                  {hospital.specialists.map((spec) => (
-                    <span
-                      key={spec._id}
-                      className={`specialist-tag ${spec.available ? 'available' : 'unavailable'}`}
-                    >
-                      {spec.type} {spec.available ? '✓' : '✗'}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            )}
-
             <button
-              className={`alert-btn ${alertSent[hospital._id] ? 'sent' : ''}`}
-              onClick={() => handleAlert(hospital)}
-              disabled={alertSent[hospital._id]}
+              className={`recommendation-alert-btn ${alertSent[recommendation._id] ? 'sent' : ''}`}
+              onClick={() => handleAlert(recommendation)}
+              disabled={alertSent[recommendation._id]}
             >
-              {alertSent[hospital._id] ? 'Alert Sent' : 'Alert This Hospital'}
+              {alertSent[recommendation._id] ? 'Alert Sent' : '🔔 Alert This Hospital'}
             </button>
           </div>
-        ))}
+        )}
+
+        <div className="map-wrapper">
+          <MapView
+            hospitals={hospitals}
+            userLocation={userLocation}
+          />
+        </div>
+
+      </div>
+
+      <div className="right-panel">
+        <div className="hospital-list">
+          {hospitals.map((hospital, index) => (
+            <div key={hospital._id} className="hospital-card">
+              <div className="card-header">
+                <span className="rank">#{index + 1}</span>
+                <div className="card-title">
+                  <h2>{hospital.name}</h2>
+                  <p className="address">{hospital.address}</p>
+                </div>
+                <div className="card-header-right">
+                  {hospital.hlers_score && (
+                    <span className="hlers-score">{hospital.hlers_score}</span>
+                  )}
+                  <span className={`status-badge ${hospital.emergencyDeptOpen ? 'open' : 'closed'}`}>
+                    {hospital.emergencyDeptOpen ? 'OPEN' : 'CLOSED'}
+                  </span>
+                </div>
+              </div>
+
+              <div className="card-stats">
+                <div className="stat">
+                  <span className="stat-value">{hospital.eta?.duration || 'N/A'}</span>
+                  <span className="stat-label">ETA</span>
+                </div>
+                <div className="stat">
+                  <span className="stat-value">{hospital.eta?.distance || 'N/A'}</span>
+                  <span className="stat-label">Distance</span>
+                </div>
+                <div className="stat">
+                  <span className={`stat-value ${hospital.availableICUBeds === 0 ? 'red' : 'green'}`}>
+                    {hospital.availableICUBeds}/{hospital.totalICUBeds}
+                  </span>
+                  <span className="stat-label">ICU Beds</span>
+                </div>
+                <div className="stat">
+                  <span className={`stat-value ${hospital.currentLoad >= 8 ? 'red' : hospital.currentLoad >= 5 ? 'orange' : 'green'}`}>
+                    {hospital.currentLoad}/10
+                  </span>
+                  <span className="stat-label">Load</span>
+                </div>
+              </div>
+
+              {hospital.specialists && hospital.specialists.length > 0 && (
+                <div className="specialists">
+                  <p className="specialists-label">Specialists:</p>
+                  <div className="specialist-list">
+                    {hospital.specialists.map((spec) => (
+                      <span
+                        key={spec._id}
+                        className={`specialist-tag ${spec.available ? 'available' : 'unavailable'}`}
+                      >
+                        {spec.type} {spec.available ? '✓' : '✗'}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              <button
+                className={`alert-btn ${alertSent[hospital._id] ? 'sent' : ''}`}
+                onClick={() => handleAlert(hospital)}
+                disabled={alertSent[hospital._id]}
+              >
+                {alertSent[hospital._id] ? 'Alert Sent' : 'Alert This Hospital'}
+              </button>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
-  )
+  </div>
+)
 }
 
 export default HospitalList
