@@ -1,7 +1,6 @@
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useState } from 'react'
 import { sendAlert } from '../services/api'
-import './HospitalList.css'
 import MapView from '../components/MapView'
 
 function HospitalList() {
