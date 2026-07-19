@@ -6,9 +6,13 @@ When someone has a medical emergency in India, a heart attack, accident, or stro
 ## What HLERS Does
 HLERS is a web application that:
 - Lets users report an emergency type (cardiac, trauma, burns, stroke)
-- Shows nearby hospitals with **real-time** capacity, ICU beds, specialist availability, current load
-- Recommends the BEST hospital using an ML scoring model (emergency type + ETA + current capacity)
-- Sends a pre-arrival alert to the hospital with basic patient info
+- Detects user location automatically from browser — no address typing
+- Shows nearby hospitals filtered by emergency type and ER open status
+- Calculates real driving ETA for each hospital using Google Maps Directions API
+- Scores each hospital using a weighted ML model (emergency type match + ICU availability + current load + ETA)
+- Recommends the single BEST hospital for that specific emergency
+- Sends a pre-arrival alert to the hospital before the patient arrives
+- Displays results on an interactive Google Maps view with hospital markers.
 
 ## Tech Stack
 - **Frontend:** React.js
@@ -18,10 +22,16 @@ HLERS is a web application that:
 - **ML:** Python + scikit-learn (hospital recommendation scoring)
 - **Security:** Helmet.js, custom NoSQL sanitizer, rate limiting, HPP, input validation
 
-## Project Status
-🟡 In active development — Day 30
-ML SCORING WEIGHTS AND NORMALIZATION LOGIC COMPLETED.
+## Current Status
+🟡 In active development — Day 33
 
+
+✅ Backend complete — Node.js + Express + MongoDB + Google Maps API
+✅ ML scoring layer complete — Python + Flask + scikit-learn
+✅ Frontend complete — React + Vite + Google Maps
+✅ Full end-to-end flow working — Emergency Form → ML Recommendation → Hospital List → Alert
+🟡 In active development — Day 33
+⏳ Coming soon — Mobile responsiveness, deployment, UI redesign
 ## Screenshots
 
 ### Hospital Results with Google Maps
