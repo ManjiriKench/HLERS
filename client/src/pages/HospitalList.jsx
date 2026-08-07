@@ -8,9 +8,9 @@ function HospitalList() {
   const location = useLocation()
   const navigate = useNavigate()
   const { hospitals, emergencyType, userLocation, recommendation, patientAge, notes } = location.state || {}
-  const [alertSent, setAlertSent] = useState({})
   const [alertError, setAlertError] = useState('')
-  const [alertModalHospital, setAlertModalHospital] = useState(null)
+  const [dispatchingHospital, setDispatchingHospital] = useState(null)
+  const [dispatchStep, setDispatchStep] = useState(1)
 
   if (!hospitals || hospitals.length === 0) {
     return (
@@ -33,17 +33,36 @@ function HospitalList() {
   const handleAlert = async (hospital) => {
     try {
       setAlertError('')
+      setDispatchingHospital(hospital)
+      setDispatchStep(1)
+
+      const timer1 = setTimeout(() => setDispatchStep(2), 700)
+      const timer2 = setTimeout(() => setDispatchStep(3), 1400)
+
       await sendAlert({
         hospitalId: hospital._id,
         emergencyType: emergencyType || 'general',
         patientAge: Number(patientAge) || 30,
         notes: notes || ''
       })
-      setAlertSent((prev) => ({ ...prev, [hospital._id]: true }))
-      setAlertModalHospital(hospital)
+
+      setTimeout(() => {
+        clearTimeout(timer1)
+        clearTimeout(timer2)
+        navigate('/alert-confirmation', {
+          state: {
+            hospital,
+            emergencyType,
+            userLocation,
+            patientAge: Number(patientAge) || 30,
+            notes
+          }
+        })
+      }, 2100)
     } catch (err) {
       console.error(err)
-      setAlertError('Failed to send alert. Please call emergency services directly.')
+      setDispatchingHospital(null)
+      setAlertError('Failed to dispatch alert. Please call emergency services directly.')
     }
   }
 
@@ -115,11 +134,11 @@ function HospitalList() {
               )}
 
               <button
-                className={`hero-alert-btn ${alertSent[primaryHospital._id] ? 'dispatched' : ''}`}
+                className="hero-alert-btn"
                 onClick={() => handleAlert(primaryHospital)}
-                disabled={alertSent[primaryHospital._id]}
+                disabled={!!dispatchingHospital}
               >
-                {alertSent[primaryHospital._id] ? '✓ Hospital Desk Alerted' : '🔔 Alert Emergency Dept Now'}
+                🔔 Alert Emergency Dept Now
               </button>
             </div>
           </div>
@@ -143,11 +162,11 @@ function HospitalList() {
                     </div>
 
                     <button
-                      className={`sec-alert-btn ${alertSent[hospital._id] ? 'dispatched' : ''}`}
+                      className="sec-alert-btn"
                       onClick={() => handleAlert(hospital)}
-                      disabled={alertSent[hospital._id]}
+                      disabled={!!dispatchingHospital}
                     >
-                      {alertSent[hospital._id] ? '✓ Alert Sent' : 'Alert Hospital'}
+                      Alert Hospital
                     </button>
                   </div>
                 ))}
@@ -165,22 +184,32 @@ function HospitalList() {
         </div>
       </div>
 
-      {alertModalHospital && (
-        <div className="modal-backdrop" onClick={() => setAlertModalHospital(null)}>
-          <div className="alert-modal" onClick={(e) => e.stopPropagation()}>
-            <div className="modal-icon">🚨</div>
-            <h2>Emergency Alert Dispatched</h2>
-            <p>
-              Pre-arrival notification sent directly to emergency triage at <strong>{alertModalHospital.name}</strong>.
-            </p>
-            <div className="modal-info-box">
-              <div><strong>Hospital:</strong> {alertModalHospital.name}</div>
-              <div><strong>Estimated Drive Time:</strong> {alertModalHospital.eta?.duration || 'N/A'}</div>
-              <div><strong>ER Desk Contact:</strong> {alertModalHospital.phone || '108 Direct'}</div>
+      {dispatchingHospital && (
+        <div className="dispatch-loader-backdrop">
+          <div className="dispatch-loader-modal">
+            <div className="radar-spinner">
+              <div className="radar-core"></div>
+              <div className="radar-wave wave-1"></div>
+              <div className="radar-wave wave-2"></div>
             </div>
-            <button className="modal-confirm-btn" onClick={() => setAlertModalHospital(null)}>
-              Proceed to Navigation
-            </button>
+
+            <h2 className="dispatch-title">Transmitting Emergency Telemetry</h2>
+            <p className="dispatch-target">Target Facility: <strong>{dispatchingHospital.name}</strong></p>
+
+            <div className="dispatch-stepper">
+              <div className={`step-row ${dispatchStep >= 1 ? 'done' : ''}`}>
+                <span className="step-dot"></span>
+                <span>Broadcasting patient condition &amp; GPS coordinates</span>
+              </div>
+              <div className={`step-row ${dispatchStep >= 2 ? 'done' : ''}`}>
+                <span className="step-dot"></span>
+                <span>Securing ICU bed &amp; specialist triage readiness</span>
+              </div>
+              <div className={`step-row ${dispatchStep >= 3 ? 'done' : ''}`}>
+                <span className="step-dot"></span>
+                <span>Locking live GPS driving route...</span>
+              </div>
+            </div>
           </div>
         </div>
       )}
