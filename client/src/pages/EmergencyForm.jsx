@@ -15,34 +15,17 @@ function EmergencyForm() {
   const [error, setError] = useState('')
 
   const emergencyOptions = [
-    { id: 'cardiac', label: 'Cardiac', desc: 'Chest pain, cardiac arrest', icon: '🫀', tag: 'CRITICAL' },
-    { id: 'stroke', label: 'Stroke', desc: 'Paralysis, speech difficulty', icon: '🧠', tag: 'TIME-CRITICAL' },
-    { id: 'trauma', label: 'Trauma', desc: 'Accident, severe injury', icon: '🩸', tag: 'URGENT' },
-    { id: 'burns', label: 'Burns', desc: 'Fire, chemical burns', icon: '🔥', tag: 'SPECIALIZED' },
-    { id: 'other', label: 'General / Other', desc: 'Acute respiratory, poison, other', icon: '🚑', tag: 'IMMEDIATE' }
+    { id: 'cardiac', label: 'Cardiac Emergency', desc: 'Heart attack, chest pain, cardiac arrest', icon: '🫀' },
+    { id: 'stroke', label: 'Stroke / Brain Emergency', desc: 'Paralysis, face drooping, speech difficulty', icon: '🧠' },
+    { id: 'trauma', label: 'Severe Trauma / Accident', desc: 'Major bleeding, fractures, vehicle crash', icon: '🩸' },
+    { id: 'burns', label: 'Severe Burns', desc: 'Fire, thermal, chemical, electrical burn', icon: '🔥' },
+    { id: 'other', label: 'General Emergency', desc: 'Severe breathing distress, poisoning, acute illness', icon: '🚑' }
   ]
-
-  const quickSymptoms = ['Unconscious', 'Chest Pain', 'Heavy Bleeding', 'Diabetic', 'Breathing Issues', 'Head Injury']
-
-  const agePresets = [
-    { label: 'Child (5)', val: '5' },
-    { label: 'Young (25)', val: '25' },
-    { label: 'Adult (45)', val: '45' },
-    { label: 'Senior (70)', val: '70' }
-  ]
-
-  const handleSymptomClick = (symptom) => {
-    if (notes.includes(symptom)) {
-      setNotes(notes.replace(symptom, '').replace(/,\s*,/g, ',').replace(/^,\s*|,\s*$/g, '').trim())
-    } else {
-      setNotes(notes ? `${notes}, ${symptom}`.slice(0, 100) : symptom)
-    }
-  }
 
   const detectLocation = () => {
     setLocationError('')
     if (!navigator.geolocation) {
-      setLocationError('Geolocation is not supported by your browser')
+      setLocationError('Geolocation not supported by your browser')
       return
     }
     navigator.geolocation.getCurrentPosition(
@@ -53,7 +36,7 @@ function EmergencyForm() {
         })
       },
       () => {
-        setLocationError('Unable to detect location. Please grant GPS access.')
+        setLocationError('Please enable GPS/location permissions')
       },
       { timeout: 10000 }
     )
@@ -62,15 +45,15 @@ function EmergencyForm() {
   const handleSubmit = async () => {
     setError('')
     if (!emergencyType) {
-      setError('Please select an emergency category above')
+      setError('Please select an emergency type on the left')
       return
     }
     if (!patientAge || patientAge < 0 || patientAge > 120) {
-      setError('Please enter a valid approximate age (0 - 120)')
+      setError('Please enter the approximate patient age')
       return
     }
     if (!location) {
-      setError('Please click Detect My Location to get GPS coordinates')
+      setError('Please click "Detect My Location" before searching')
       return
     }
     setLoading(true)
@@ -103,130 +86,94 @@ function EmergencyForm() {
       })
     } catch (err) {
       console.error(err)
-      setError('Connection timeout. Please check your network or try again.')
+      setError('Unable to fetch hospitals. Please check your network connection.')
     } finally {
       setLoading(false)
     }
   }
 
   return (
-    <div className="emergency-form-page">
-      <div className="form-wrapper">
-        <div className="form-top-indicator">
-          <div className="status-live">
-            <span className="pulsing-beacon"></span>
-            RAPID TRIAGE INTAKE
-          </div>
-          <div className="target-timer">⏱️ Target: &lt; 30 Seconds</div>
-        </div>
+    <div className="emergency-web-container">
+      <div className="horizontal-form-panel">
+        <div className="left-triage-panel">
+          <div className="step-tag">STEP 1</div>
+          <h2 className="step-title">Select Emergency Condition</h2>
+          <p className="step-subtitle">Click the category that matches the patient's condition:</p>
 
-        <div className="form-heading-block">
-          <h1>What is the Medical Emergency?</h1>
-          <p>Instant ML matching for real-time ICU beds, specialists, and traffic ETA.</p>
-        </div>
-
-        <div className="triage-section">
-          <div className="emergency-grid">
+          <div className="horizontal-options-list">
             {emergencyOptions.map((opt) => (
               <div
                 key={opt.id}
-                className={`emergency-card ${emergencyType === opt.id ? 'active' : ''}`}
+                className={`horizontal-option-card ${emergencyType === opt.id ? 'selected' : ''}`}
                 onClick={() => setEmergencyType(opt.id)}
               >
-                <div className="card-top">
-                  <span className="card-emoji">{opt.icon}</span>
-                  <span className="urgency-tag">{opt.tag}</span>
+                <span className="opt-icon">{opt.icon}</span>
+                <div className="opt-text">
+                  <span className="opt-title">{opt.label}</span>
+                  <span className="opt-desc">{opt.desc}</span>
                 </div>
-                <div className="card-title">{opt.label}</div>
-                <div className="card-desc">{opt.desc}</div>
+                <div className="opt-radio">
+                  {emergencyType === opt.id && <span className="radio-dot"></span>}
+                </div>
               </div>
             ))}
           </div>
         </div>
 
-        <div className="triage-row-split">
-          <div className="triage-col">
-            <label className="field-title">Patient Age (Approximate) *</label>
-            <div className="age-input-row">
-              <input
-                type="number"
-                placeholder="Enter age (e.g. 45)"
-                value={patientAge}
-                onChange={(e) => setPatientAge(e.target.value)}
-                min="0"
-                max="120"
-                className="patient-age-field"
-              />
-            </div>
-            <div className="quick-age-pills">
-              {agePresets.map((preset) => (
-                <button
-                  key={preset.val}
-                  type="button"
-                  className={`age-preset-btn ${patientAge === preset.val ? 'selected' : ''}`}
-                  onClick={() => setPatientAge(preset.val)}
-                >
-                  {preset.label}
-                </button>
-              ))}
-            </div>
+        <div className="right-dispatch-panel">
+          <div className="step-tag">STEP 2 & 3</div>
+          <h2 className="step-title">Patient & Location</h2>
+          <p className="step-subtitle">Enter details to calculate driving ETA and bed capacity:</p>
+
+          <div className="input-group">
+            <label className="input-label">Patient Age (Years) *</label>
+            <input
+              type="number"
+              placeholder="e.g. 45"
+              value={patientAge}
+              onChange={(e) => setPatientAge(e.target.value)}
+              min="0"
+              max="120"
+              className="web-input"
+            />
           </div>
 
-          <div className="triage-col">
-            <label className="field-title">Quick Condition Tags (Optional)</label>
-            <div className="quick-tags-wrap">
-              {quickSymptoms.map((symptom) => (
-                <button
-                  key={symptom}
-                  type="button"
-                  className={`symptom-tag ${notes.includes(symptom) ? 'selected' : ''}`}
-                  onClick={() => handleSymptomClick(symptom)}
-                >
-                  {notes.includes(symptom) ? `✓ ${symptom}` : `+ ${symptom}`}
-                </button>
-              ))}
-            </div>
-            <textarea
-              placeholder="Or type specific notes (e.g. high BP, head injury)..."
+          <div className="input-group">
+            <label className="input-label">GPS Location *</label>
+            <button
+              type="button"
+              className={`web-location-btn ${location ? 'ready' : ''}`}
+              onClick={detectLocation}
+            >
+              {location
+                ? '✓ Location Acquired (Ready)'
+                : '📍 Click to Detect My Current Location'}
+            </button>
+            {locationError && <p className="field-error">{locationError}</p>}
+          </div>
+
+          <div className="input-group">
+            <label className="input-label">Optional Medical Notes</label>
+            <input
+              type="text"
+              placeholder="e.g. diabetic, head injury, conscious..."
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
               maxLength={100}
-              className="notes-custom-field"
-              rows={2}
+              className="web-input"
             />
           </div>
+
+          {error && <div className="web-error-box">{error}</div>}
+
+          <button
+            className="web-submit-btn"
+            onClick={handleSubmit}
+            disabled={loading}
+          >
+            {loading ? <LoadingSpinner /> : 'Find & Score Best Hospitals →'}
+          </button>
         </div>
-
-        <div className="location-verify-section">
-          <div className="location-info-row">
-            <div className="location-text">
-              <strong>GPS Dispatch Coordinates *</strong>
-              <span>
-                {location
-                  ? `Lat: ${location.latitude.toFixed(4)}, Long: ${location.longitude.toFixed(4)}`
-                  : 'Required for real-time Google Maps traffic calculation'}
-              </span>
-            </div>
-            <button
-              type="button"
-              className={`detect-gps-btn ${location ? 'acquired' : ''}`}
-              onClick={detectLocation}
-            >
-              {location ? '✓ Location Locked' : '📍 Auto-Detect My Location'}
-            </button>
-          </div>
-          {locationError && <div className="location-err">{locationError}</div>}
-        </div>
-
-        {error && <div className="form-error-toast">{error}</div>}
-
-        <button
-          className="dispatch-submit-btn"
-          onClick={handleSubmit}
-          disabled={loading}
-        >
-          {loading ? <LoadingSpinner /> : '🚨 Match Best Hospital Immediately →'}
-        </button>
       </div>
     </div>
   )
