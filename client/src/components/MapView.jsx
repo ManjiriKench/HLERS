@@ -2,16 +2,16 @@ import { GoogleMap, useJsApiLoader, Marker, InfoWindow } from '@react-google-map
 import { useState } from 'react'
 
 const mapContainerStyle = {
-    width: '100%',
-    height: '350px',
-    borderRadius: '12px'
+  width: '100%',
+  height: '100%',
+  borderRadius: '16px'
 }
 
 const mapOptions = {
-    zoomControl: true,
-    streetViewControl: false,
-    mapTypeControl: false,
-    fullscreenControl: false
+  zoomControl: true,
+  streetViewControl: false,
+  mapTypeControl: false,
+  fullscreenControl: false
 }
 
 function MapView({ hospitals, userLocation }) {

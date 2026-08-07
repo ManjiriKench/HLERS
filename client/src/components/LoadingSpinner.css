@@ -1,21 +1,21 @@
 .spinner-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 4px;
 }
 
-.spinnerr {
-    width: 24px;
-    height: 24px;
-    border: 3px solid #ffffff;
-    border-top-color:transparent;
-    border-radius: 50%;
-    animation: spin 0.8s linear infinite;
+.spinner {
+  width: 22px;
+  height: 22px;
+  border: 3px solid rgba(255, 255, 255, 0.4);
+  border-top-color: var(--white);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
 }
 
-@keyframes spin{
-    to{
-        transform: rotate(360deg);
-    }
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
