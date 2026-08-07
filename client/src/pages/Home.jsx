@@ -36,7 +36,7 @@ function Home() {
               </button>
               <button
                 className="secondary-info-btn"
-                onClick={() => scrollToSection('how-it-works')}
+                onClick={() => scrollToSection('capabilities')}
               >
                 Explore Technology
               </button>
@@ -61,7 +61,7 @@ function Home() {
           </div>
 
           <div className="hero-visual-column">
-            <div className="simulation-card">
+            <div className="simulation-card dark-theme">
               <div className="sim-header">
                 <div className="sim-header-left">
                   <span className="sim-radar-dot"></span>
@@ -70,12 +70,12 @@ function Home() {
                 <span className="sim-tag">ML OPTIMIZED</span>
               </div>
 
-              <div className="sim-canvas">
+              <div className="sim-canvas dark-canvas">
                 <div className="sim-grid-dots"></div>
 
                 <div className="sim-node origin-node">
                   <div className="node-pulse"></div>
-                  <div className="node-label">Emergency Call (GPS)</div>
+                  <div className="node-label">Emergency Location</div>
                 </div>
 
                 <svg className="sim-route-svg" viewBox="0 0 400 220" preserveAspectRatio="none">
@@ -95,21 +95,21 @@ function Home() {
 
                 <div className="sim-node destination-node">
                   <div className="dest-glow"></div>
-                  <div className="node-label">Scored ER Hospital</div>
+                  <div className="node-label">Scored ER Facility</div>
                 </div>
               </div>
 
-              <div className="sim-telemetry">
+              <div className="sim-telemetry dark-telemetry">
                 <div className="telem-item">
-                  <span className="telem-lbl">ETA ROUTE</span>
+                  <span className="telem-lbl">DRIVE DURATION</span>
                   <span className="telem-val">6.4 Mins</span>
                 </div>
                 <div className="telem-item">
-                  <span className="telem-lbl">ICU BEDS</span>
-                  <span className="telem-val green">4 Available</span>
+                  <span className="telem-lbl">ICU CAPACITY</span>
+                  <span className="telem-val green">Available</span>
                 </div>
                 <div className="telem-item">
-                  <span className="telem-lbl">CARDIAC SPEC.</span>
+                  <span className="telem-lbl">SPECIALIST TEAM</span>
                   <span className="telem-val green">On Duty</span>
                 </div>
               </div>
@@ -118,45 +118,31 @@ function Home() {
         </div>
       </section>
 
-      <div className="live-ticker-bar">
-        <div className="ticker-track">
-          <span className="ticker-badge">LIVE NETWORK STATUS</span>
-          <span className="ticker-item"><span className="ticker-bullet"></span> Poona Hospital · ICU: 3 Beds Open</span>
-          <span className="ticker-item"><span className="ticker-bullet"></span> Ruby Hall Clinic · Trauma Specialist: On Duty</span>
-          <span className="ticker-item"><span className="ticker-bullet"></span> Jehangir Hospital · Stroke Team: Active</span>
-          <span className="ticker-item"><span className="ticker-bullet"></span> Sahyadri Hospital · ICU: 5 Beds Open</span>
-          <span className="ticker-item"><span className="ticker-bullet"></span> KEM Hospital · Cardiac Cath Lab: Ready</span>
-          <span className="ticker-item"><span className="ticker-bullet"></span> Poona Hospital · ICU: 3 Beds Open</span>
-        </div>
-      </div>
-
-      <section id="how-it-works" className="info-section">
+      <section id="capabilities" className="capabilities-section">
         <div className="section-container">
-          <div className="section-header">
-            <div className="pulse-ecg-badge">
-              <svg className="ecg-svg" viewBox="0 0 100 24">
-                <polyline points="0,12 30,12 36,4 42,20 48,12 54,12 60,6 66,18 72,12 100,12" />
-              </svg>
-              <span>REAL-TIME SCORING PIPELINE</span>
-            </div>
-            <h2 className="section-title">How HLERS Works in 3 Simple Steps</h2>
+          <div className="section-header-compact">
+            <div className="section-kicker">ENGINE CAPABILITIES</div>
+            <h2 className="section-heading">Built for High-Stakes Emergency Triage</h2>
+            <p className="section-subtext">Three synchronized intelligence layers eliminate critical delays during medical emergencies.</p>
           </div>
 
-          <div className="steps-grid">
-            <div className="step-card">
-              <div className="step-number">01</div>
-              <h3>Select Emergency</h3>
-              <p>Choose the medical condition (Cardiac, Trauma, Stroke, Burns) and confirm your location via GPS.</p>
+          <div className="capabilities-cards-grid">
+            <div className="capability-card">
+              <div className="cap-indicator cap-traffic"></div>
+              <h3 className="cap-title">Live Traffic Navigation</h3>
+              <p className="cap-desc">Continuous Google Maps traffic calculations compute accurate driving durations to every regional emergency bay.</p>
             </div>
-            <div className="step-card">
-              <div className="step-number">02</div>
-              <h3>ML Algorithmic Scoring</h3>
-              <p>HLERS ranks facilities based on live Google Maps traffic ETA, ICU capacity, specialist readiness, and ER load.</p>
+
+            <div className="capability-card">
+              <div className="cap-indicator cap-icu"></div>
+              <h3 className="cap-title">Real-Time ICU Sync</h3>
+              <p className="cap-desc">Direct facility integration monitors live intensive care bed availability and emergency ventilator capacity.</p>
             </div>
-            <div className="step-card">
-              <div className="step-number">03</div>
-              <h3>Navigate &amp; Alert ER</h3>
-              <p>Get real-time map guidance and dispatch a pre-arrival notification directly to the hospital triage desk.</p>
+
+            <div className="capability-card">
+              <div className="cap-indicator cap-specialist"></div>
+              <h3 className="cap-title">Specialist Matching</h3>
+              <p className="cap-desc">Evaluates patient condition to match catheterization labs, stroke neurologists, trauma surgeons, and burn units.</p>
             </div>
           </div>
         </div>
@@ -164,32 +150,49 @@ function Home() {
 
       <section className="comparison-section">
         <div className="section-container">
-          <div className="section-header">
-            <span className="section-subtitle">Why HLERS?</span>
-            <h2 className="section-title">Standard Navigation vs. HLERS Emergency Routing</h2>
+          <div className="section-header-compact">
+            <div className="section-kicker">THE CRITICAL DIFFERENCE</div>
+            <h2 className="section-heading">Nearest Facility vs. Capable Facility</h2>
           </div>
 
           <div className="comparison-grid">
             <div className="comparison-card legacy">
               <div className="comp-tag">Standard Map Apps</div>
-              <h3>Nearest Location Only</h3>
+              <h3>Nearest Distance Only</h3>
               <ul>
-                <li>May direct you to a hospital with zero available ICU beds</li>
-                <li>Does not verify if required specialist is on duty</li>
-                <li>Ignores emergency room overload and wait times</li>
-                <li>No pre-arrival notification to emergency department</li>
+                <li>Routes to facilities without verifying ICU bed availability</li>
+                <li>No verification of condition-specific specialists on duty</li>
+                <li>Ignores emergency room overload and triage wait times</li>
+                <li>Zero pre-arrival communication with the emergency department</li>
               </ul>
             </div>
             <div className="comparison-card hlers-highlight">
-              <div className="comp-tag hlers">HLERS Emergency Engine</div>
-              <h3>Capable Location Recommendation</h3>
+              <div className="comp-tag hlers">HLERS Intelligence</div>
+              <h3>Capable Location Optimization</h3>
               <ul>
                 <li>Verifies live available ICU critical care beds</li>
-                <li>Confirms specialist availability for your exact condition</li>
-                <li>Factored live Google Maps traffic and driving duration</li>
-                <li>Direct pre-arrival dispatch alert to the hospital desk</li>
+                <li>Confirms specialist readiness for the patient's exact condition</li>
+                <li>Factors live driving traffic and road travel duration</li>
+                <li>Transmits direct pre-arrival alerts to the emergency desk</li>
               </ul>
             </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="pre-footer-cta-section">
+        <div className="section-container">
+          <div className="pre-footer-cta-box">
+            <div className="cta-box-left">
+              <h2 className="cta-box-title">Every Second Counts in a Medical Emergency</h2>
+              <p className="cta-box-sub">Begin rapid triage to locate the most capable hospital with open ICU beds right now.</p>
+            </div>
+            <button
+              className="cta-box-btn"
+              onClick={() => navigate('/emergency')}
+            >
+              Start Emergency Triage
+            </button>
           </div>
         </div>
       </section>

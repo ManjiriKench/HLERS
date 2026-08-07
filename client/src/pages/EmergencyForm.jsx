@@ -168,7 +168,10 @@ function EmergencyForm() {
               disabled={locating}
             >
               {locating ? (
-                <span className="radar-sweep-text">Acquiring High-Precision GPS...</span>
+                <>
+                  <span className="radar-spinner-dot"></span>
+                  <span className="radar-sweep-text">Acquiring High-Precision GPS...</span>
+                </>
               ) : location ? (
                 'GPS Coordinates Locked'
               ) : (
