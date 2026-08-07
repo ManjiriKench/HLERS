@@ -130,6 +130,37 @@
   border-radius: 50%;
 }
 
+.triage-protocol-banner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background-color: var(--teal-light);
+  border: 1px solid var(--teal-mid);
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  margin-top: 14px;
+  animation: fade-in-up 0.3s ease;
+}
+
+@keyframes fade-in-up {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.protocol-pulse {
+  width: 8px;
+  height: 8px;
+  background-color: var(--teal-dark);
+  border-radius: 50%;
+  box-shadow: 0 0 0 3px rgba(13, 115, 119, 0.25);
+  animation: beacon-blink 1.5s infinite;
+}
+
+.protocol-text {
+  font-size: 0.8rem;
+  color: var(--teal-dark);
+}
+
 .input-group {
   display: flex;
   flex-direction: column;
@@ -179,6 +210,26 @@
   background-color: var(--green);
   border-color: var(--green);
   color: var(--white);
+}
+
+.web-location-btn.locating {
+  background-color: var(--teal-light);
+  border-color: var(--teal-dark);
+}
+
+.gps-readout {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.76rem;
+  color: var(--teal-dark);
+  font-weight: 700;
+  margin-top: 4px;
+}
+
+.gps-live-dot {
+  color: var(--green);
+  margin-left: auto;
 }
 
 .field-error {

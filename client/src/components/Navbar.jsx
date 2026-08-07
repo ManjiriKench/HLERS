@@ -10,6 +10,12 @@ function Navbar() {
         <span className="navbar-dot"></span>
         <span className="navbar-logo">HLERS</span>
       </div>
+
+      <div className="navbar-center-status">
+        <span className="grid-status-beacon"></span>
+        <span className="grid-status-text">24/7 Emergency Grid Online</span>
+      </div>
+
       <div className="navbar-right">
         <button
           className="navbar-btn"

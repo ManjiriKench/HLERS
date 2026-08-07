@@ -11,21 +11,26 @@ function EmergencyForm() {
   const [notes, setNotes] = useState('')
   const [location, setLocation] = useState(null)
   const [locationError, setLocationError] = useState('')
+  const [locating, setLocating] = useState(false)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
 
   const emergencyOptions = [
-    { id: 'cardiac', label: 'Cardiac Emergency', desc: 'Heart attack, chest pain, cardiac arrest', icon: '🫀' },
-    { id: 'stroke', label: 'Stroke / Brain Emergency', desc: 'Paralysis, face drooping, speech difficulty', icon: '🧠' },
-    { id: 'trauma', label: 'Severe Trauma / Accident', desc: 'Major bleeding, fractures, vehicle crash', icon: '🩸' },
-    { id: 'burns', label: 'Severe Burns', desc: 'Fire, thermal, chemical, electrical burn', icon: '🔥' },
-    { id: 'other', label: 'General Emergency', desc: 'Severe breathing distress, poisoning, acute illness', icon: '🚑' }
+    { id: 'cardiac', label: 'Cardiac Emergency', desc: 'Heart attack, chest pain, cardiac arrest', icon: '🫀', protocol: 'Direct Cath-Lab & Cardiologist Sync' },
+    { id: 'stroke', label: 'Stroke / Brain Emergency', desc: 'Paralysis, face drooping, speech difficulty', icon: '🧠', protocol: 'Immediate CT/MRI & Stroke Team Mobilization' },
+    { id: 'trauma', label: 'Severe Trauma / Accident', desc: 'Major bleeding, fractures, vehicle crash', icon: '🩸', protocol: 'Trauma Bay & Ortho/Surgeon Standby' },
+    { id: 'burns', label: 'Severe Burns', desc: 'Fire, thermal, chemical, electrical burn', icon: '🔥', protocol: 'Specialized Burn ICU Protocol' },
+    { id: 'other', label: 'General Emergency', desc: 'Severe breathing distress, poisoning, acute illness', icon: '🚑', protocol: 'Rapid Acute ER Bed Allocation' }
   ]
+
+  const selectedOpt = emergencyOptions.find(o => o.id === emergencyType)
 
   const detectLocation = () => {
     setLocationError('')
+    setLocating(true)
     if (!navigator.geolocation) {
       setLocationError('Geolocation not supported by your browser')
+      setLocating(false)
       return
     }
     navigator.geolocation.getCurrentPosition(
@@ -34,9 +39,11 @@ function EmergencyForm() {
           latitude: position.coords.latitude,
           longitude: position.coords.longitude
         })
+        setLocating(false)
       },
       () => {
         setLocationError('Please enable GPS/location permissions')
+        setLocating(false)
       },
       { timeout: 10000 }
     )
@@ -118,6 +125,15 @@ function EmergencyForm() {
               </div>
             ))}
           </div>
+
+          {selectedOpt && (
+            <div className="triage-protocol-banner">
+              <span className="protocol-pulse"></span>
+              <div className="protocol-text">
+                <strong>Protocol Active:</strong> {selectedOpt.protocol}
+              </div>
+            </div>
+          )}
         </div>
 
         <div className="right-dispatch-panel">
@@ -142,13 +158,25 @@ function EmergencyForm() {
             <label className="input-label">GPS Location *</label>
             <button
               type="button"
-              className={`web-location-btn ${location ? 'ready' : ''}`}
+              className={`web-location-btn ${location ? 'ready' : ''} ${locating ? 'locating' : ''}`}
               onClick={detectLocation}
+              disabled={locating}
             >
-              {location
-                ? '✓ Location Acquired (Ready)'
-                : '📍 Click to Detect My Current Location'}
+              {locating ? (
+                <span className="radar-sweep-text">📡 Acquiring High-Precision GPS...</span>
+              ) : location ? (
+                '✓ GPS Coordinates Locked'
+              ) : (
+                '📍 Click to Detect My Current Location'
+              )}
             </button>
+            {location && (
+              <div className="gps-readout">
+                <span>Lat: {location.latitude.toFixed(4)}</span>
+                <span>Lng: {location.longitude.toFixed(4)}</span>
+                <span className="gps-live-dot">● Precision Active</span>
+              </div>
+            )}
             {locationError && <p className="field-error">{locationError}</p>}
           </div>
 

@@ -55,9 +55,12 @@ function HospitalList() {
             <button onClick={() => navigate('/emergency')} className="back-link">
               ← Re-triage Emergency
             </button>
-            <span className="emergency-type-badge">
-              {emergencyType?.toUpperCase() || 'EMERGENCY'}
-            </span>
+            <div className="badge-group">
+              <span className="live-status-pill">● Live Dispatch Ready</span>
+              <span className="emergency-type-badge">
+                {emergencyType?.toUpperCase() || 'EMERGENCY'}
+              </span>
+            </div>
           </div>
 
           {alertError && <div className="alert-error-banner">{alertError}</div>}
@@ -67,7 +70,7 @@ function HospitalList() {
               <div className="hero-badge-row">
                 <span className="top-choice-tag">⭐ #1 BEST MATCHED HOSPITAL</span>
                 {primaryHospital.hlers_score && (
-                  <span className="ml-score-pill">Score: {primaryHospital.hlers_score}</span>
+                  <span className="ml-score-pill">ML Match Score: {primaryHospital.hlers_score}</span>
                 )}
               </div>
 
@@ -154,6 +157,10 @@ function HospitalList() {
         </div>
 
         <div className="right-map-panel">
+          <div className="map-layer-badge">
+            <span className="map-radar-pulse"></span>
+            Live Google Maps Traffic &amp; Route Layer
+          </div>
           <MapView hospitals={hospitals} userLocation={userLocation} />
         </div>
       </div>

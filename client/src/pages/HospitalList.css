@@ -69,6 +69,34 @@
   padding: 16px;
   background-color: var(--white);
   border-left: 1px solid var(--border);
+  position: relative;
+}
+
+.map-layer-badge {
+  position: absolute;
+  top: 28px;
+  left: 28px;
+  z-index: 10;
+  background-color: rgba(255, 255, 255, 0.95);
+  border: 1px solid var(--border);
+  padding: 6px 14px;
+  border-radius: var(--radius-full);
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--teal-dark);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: var(--shadow-sm);
+  backdrop-filter: blur(4px);
+}
+
+.map-radar-pulse {
+  width: 7px;
+  height: 7px;
+  background-color: var(--green);
+  border-radius: 50%;
+  animation: beacon-blink 1.5s infinite;
 }
 
 .results-top-bar {
@@ -84,6 +112,21 @@
   font-size: 0.9rem;
   font-weight: 700;
   padding: 0;
+}
+
+.badge-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.live-status-pill {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--green);
+  background-color: var(--green-light);
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
 }
 
 .emergency-type-badge {
