@@ -6,10 +6,12 @@ import MapView from '../components/MapView'
 function AlertConfirmation() {
   const location = useLocation()
   const navigate = useNavigate()
-  const { hospital, emergencyType, userLocation, patientAge, notes } = location.state || {}
+  const { hospital: initialHospital, allHospitals, emergencyType, userLocation, patientAge, notes } = location.state || {}
+  const [activeHospital, setActiveHospital] = useState(initialHospital)
   const [isNavigating, setIsNavigating] = useState(false)
+  const [switchFeedback, setSwitchFeedback] = useState('')
 
-  if (!hospital) {
+  if (!activeHospital) {
     return (
       <div className="alert-page-fallback">
         <div className="fallback-card">
@@ -23,119 +25,176 @@ function AlertConfirmation() {
     )
   }
 
+  const alternatives = (allHospitals || []).filter(h => h._id !== activeHospital._id)
+
+  const getRankBadge = (h) => {
+    const originalIndex = (allHospitals || []).findIndex(item => item._id === h._id)
+    if (originalIndex === 0) return 'Option #1 (Primary Match)'
+    if (originalIndex > 0) return `Option #${originalIndex + 1}`
+    return 'Alternate Facility'
+  }
+
+  const activeIndex = (allHospitals || []).findIndex(item => item._id === activeHospital._id)
+  const activeBadge = activeIndex === 0 ? 'Primary #1 Facility' : `Option #${activeIndex + 1} (Active)`
+
+  const handleBackToHospitals = () => {
+    navigate('/hospitals', {
+      state: {
+        hospitals: allHospitals,
+        emergencyType,
+        userLocation,
+        recommendation: allHospitals?.[0] || activeHospital,
+        patientAge,
+        notes
+      }
+    })
+  }
+
+  const handleSwitchHospital = (newHospital) => {
+    setActiveHospital(newHospital)
+    setSwitchFeedback(`Route updated to ${newHospital.name}`)
+    setTimeout(() => setSwitchFeedback(''), 3000)
+  }
 
   return (
     <div className="confirmation-page">
       <div className="confirmation-top-banner">
         <div className="banner-left">
           <span className="live-alert-beacon"></span>
-          <span className="banner-main-title">Emergency Dispatch Active</span>
-          <span className="banner-sub-tag">Pre-Arrival Telemetry Transmitted</span>
+          <span className="banner-main-title">Emergency Dispatch Confirmed</span>
         </div>
         <div className="banner-right">
-          <span className="eta-badge">Est. Arrival: {hospital.eta?.duration || '6 mins'}</span>
+          <span className="eta-badge">ETA: {activeHospital.eta?.duration || '6 mins'}</span>
         </div>
       </div>
 
       <div className="confirmation-split-layout">
         <div className="confirm-left-panel">
+          <div className="change-alert-bar">
+            <button onClick={handleBackToHospitals} className="change-alert-action-btn">
+              ← Change Hospital Alert
+            </button>
+          </div>
+
           <div className="hospital-dispatch-card">
-            <div className="dispatch-header">
-              <span className="detected-tag">Primary Matched Facility</span>
-              <span className="er-status-badge">ER Standing By</span>
+            <div className="hospital-title-group">
+              <span className="card-badge">{activeBadge}</span>
+              <h1 className="dispatched-hospital-name">{activeHospital.name}</h1>
+              <p className="dispatched-hospital-address">{activeHospital.address}</p>
             </div>
 
-            <h1 className="dispatched-hospital-name">{hospital.name}</h1>
-            <p className="dispatched-hospital-address">📍 {hospital.address}</p>
-
-            <div className="telemetry-stats-row">
-              <div className="telemetry-stat">
-                <span className="t-val">{hospital.eta?.duration || 'N/A'}</span>
-                <span className="t-lbl">Drive Time</span>
+            <div className="essential-stats-row">
+              <div className="essential-stat">
+                <span className="stat-num">{activeHospital.eta?.duration || 'N/A'}</span>
+                <span className="stat-lbl">Drive Time</span>
               </div>
-              <div className="telemetry-stat">
-                <span className="t-val">{hospital.eta?.distance || 'N/A'}</span>
-                <span className="t-lbl">Distance</span>
-              </div>
-              <div className="telemetry-stat">
-                <span className="t-val green-text">{hospital.availableICUBeds} Open</span>
-                <span className="t-lbl">ICU Beds</span>
-              </div>
-              <div className="telemetry-stat">
-                <span className="t-val">{hospital.currentLoad}/10</span>
-                <span className="t-lbl">Load Level</span>
+              <div className="essential-stat">
+                <span className="stat-num">{activeHospital.availableICUBeds} Beds</span>
+                <span className="stat-lbl">ICU Open</span>
               </div>
             </div>
 
-            <div className="readiness-checklist">
-              <div className="checklist-item">
-                <span className="check-icon">✓</span>
-                <div className="check-text">
-                  <strong>Pre-Arrival Triage Notification Delivered</strong>
-                  <span>Triage desk alerted for {emergencyType?.toUpperCase()} condition.</span>
-                </div>
-              </div>
-              <div className="checklist-item">
-                <span className="check-icon">✓</span>
-                <div className="check-text">
-                  <strong>Critical Care Bed Reserved</strong>
-                  <span>Direct catheterization &amp; emergency bay verified.</span>
-                </div>
-              </div>
-              <div className="checklist-item">
-                <span className="check-icon">✓</span>
-                <div className="check-text">
-                  <strong>Specialist Team Ready</strong>
-                  <span>On-duty medical specialists standing by for immediate intake.</span>
-                </div>
-              </div>
+            <div className="patient-triage-pill">
+              <span className="triage-label">Condition:</span>
+              <span className="triage-val">
+                {emergencyType?.toUpperCase()} {patientAge ? `(${patientAge} yrs)` : ''}
+              </span>
             </div>
 
-            <div className="patient-triage-summary">
-              <div className="summary-title">PATIENT SUMMARY</div>
-              <div className="summary-grid">
-                <div><strong>Type:</strong> {emergencyType?.toUpperCase()}</div>
-                <div><strong>Age:</strong> {patientAge ? `${patientAge} Years` : 'Not specified'}</div>
-                <div className="full-span"><strong>Notes:</strong> {notes || 'None provided'}</div>
+            {notes && (
+              <div className="patient-notes-pill">
+                <span className="notes-label">Notes:</span> {notes}
               </div>
-            </div>
+            )}
 
             <div className="emergency-actions-row">
-              {hospital.phone && (
-                <a href={`tel:${hospital.phone}`} className="call-er-btn">
-                  📞 Call ER Desk: {hospital.phone}
+              {activeHospital.phone && (
+                <a href={`tel:${activeHospital.phone}`} className="call-er-btn">
+                  Call ER Desk
                 </a>
               )}
               <a href="tel:108" className="call-108-btn">
-                🚑 Call 108 Hotline
+                Call 108 Hotline
               </a>
             </div>
           </div>
+
+          {switchFeedback && (
+            <div className="switch-feedback-toast">
+              {switchFeedback}
+            </div>
+          )}
+
+          {alternatives.length > 0 && (
+            <div className="contingency-routing-section">
+              <div className="contingency-header">
+                <span className="contingency-title">Traffic / Alternate Options</span>
+                <span className="contingency-hint">Switch route if delayed</span>
+              </div>
+
+              <div className="contingency-list">
+                {alternatives.map((alt) => (
+                  <div key={alt._id} className="contingency-card">
+                    <div className="contingency-top">
+                      <div className="contingency-info">
+                        <span className="alt-tag">{getRankBadge(alt)}</span>
+                        <h4 className="alt-name">{alt.name}</h4>
+                        <p className="alt-address">{alt.address}</p>
+                      </div>
+                      <button
+                        className="switch-reroute-btn"
+                        onClick={() => handleSwitchHospital(alt)}
+                      >
+                        Switch Route
+                      </button>
+                    </div>
+
+                    <div className="contingency-metrics">
+                      <span><strong>ETA:</strong> {alt.eta?.duration || 'N/A'}</span>
+                      <span><strong>Dist:</strong> {alt.eta?.distance || 'N/A'}</span>
+                      <span><strong>ICU:</strong> {alt.availableICUBeds} Beds</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
 
         <div className="confirm-right-panel">
-          <div className="live-gps-hud-bar">
-            <div className="hud-info">
-              <span className={`hud-radar ${isNavigating ? 'active' : ''}`}></span>
-              <span>{isNavigating ? 'Live Device GPS Active' : 'Route Ready to Start'}</span>
+          <button
+            className={`smart-nav-bar ${isNavigating ? 'active' : ''}`}
+            onClick={() => setIsNavigating(!isNavigating)}
+          >
+            <div className="smart-nav-left">
+              <div className="smart-nav-icon-wrap">
+                <span className={`nav-live-dot ${isNavigating ? 'active' : ''}`}></span>
+              </div>
+              <div className="smart-nav-text">
+                <span className="smart-nav-title">
+                  {isNavigating ? 'LIVE GPS ACTIVE' : 'START NAVIGATION'}
+                </span>
+                <span className="smart-nav-sub">
+                  {isNavigating
+                    ? `Tracking real-time movement to ${activeHospital.name}`
+                    : `Drive route to ${activeHospital.name} · ${activeHospital.eta?.duration || '6 mins'}`}
+                </span>
+              </div>
             </div>
-            <div className="hud-btns-group">
-              <button
-                className={`start-nav-btn ${isNavigating ? 'active' : ''}`}
-                onClick={() => setIsNavigating(!isNavigating)}
-              >
-                {isNavigating ? '⏸ Pause GPS' : '🚀 Start Live Navigation'}
-              </button>
+            <div className="smart-nav-btn-pill">
+              {isNavigating ? 'Pause' : 'Start Navigation'}
             </div>
-          </div>
+          </button>
 
-          <MapView
-            hospitals={[hospital]}
-            targetHospital={hospital}
-            userLocation={userLocation}
-            mode="navigation"
-            isNavigating={isNavigating}
-          />
+          <div className="map-view-container">
+            <MapView
+              hospitals={[activeHospital]}
+              targetHospital={activeHospital}
+              userLocation={userLocation}
+              mode="navigation"
+              isNavigating={isNavigating}
+            />
+          </div>
         </div>
       </div>
     </div>

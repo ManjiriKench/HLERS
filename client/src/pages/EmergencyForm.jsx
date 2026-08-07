@@ -103,7 +103,12 @@ function EmergencyForm() {
     <div className="emergency-web-container">
       <div className="horizontal-form-panel">
         <div className="left-triage-panel">
-          <div className="step-tag">STEP 1</div>
+          <div className="triage-panel-header">
+            <button onClick={() => navigate('/')} className="form-back-link">
+              ← Home
+            </button>
+            <div className="step-tag">STEP 1</div>
+          </div>
           <h2 className="step-title">Select Emergency Condition</h2>
           <p className="step-subtitle">Click the category that matches the patient's condition:</p>
 
@@ -137,8 +142,8 @@ function EmergencyForm() {
         </div>
 
         <div className="right-dispatch-panel">
-          <div className="step-tag">STEP 2 & 3</div>
-          <h2 className="step-title">Patient & Location</h2>
+          <div className="step-tag">STEP 2 &amp; 3</div>
+          <h2 className="step-title">Patient &amp; Location</h2>
           <p className="step-subtitle">Enter details to calculate driving ETA and bed capacity:</p>
 
           <div className="input-group">
@@ -163,18 +168,21 @@ function EmergencyForm() {
               disabled={locating}
             >
               {locating ? (
-                <span className="radar-sweep-text">📡 Acquiring High-Precision GPS...</span>
+                <span className="radar-sweep-text">Acquiring High-Precision GPS...</span>
               ) : location ? (
-                '✓ GPS Coordinates Locked'
+                'GPS Coordinates Locked'
               ) : (
-                '📍 Click to Detect My Current Location'
+                'Detect My Current Location'
               )}
             </button>
             {location && (
               <div className="gps-readout">
                 <span>Lat: {location.latitude.toFixed(4)}</span>
                 <span>Lng: {location.longitude.toFixed(4)}</span>
-                <span className="gps-live-dot">● Precision Active</span>
+                <span className="gps-live-dot">
+                  <span className="live-gps-beacon"></span>
+                  Precision Active
+                </span>
               </div>
             )}
             {locationError && <p className="field-error">{locationError}</p>}
@@ -199,7 +207,7 @@ function EmergencyForm() {
             onClick={handleSubmit}
             disabled={loading}
           >
-            {loading ? <LoadingSpinner /> : 'Find & Score Best Hospitals →'}
+            {loading ? <LoadingSpinner /> : 'Find & Score Best Hospitals'}
           </button>
         </div>
       </div>

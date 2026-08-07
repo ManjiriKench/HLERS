@@ -32,13 +32,13 @@ function Home() {
                 className="primary-emergency-btn"
                 onClick={() => navigate('/emergency')}
               >
-                <span className="btn-icon">🚨</span> Report Emergency Now
+                Report Emergency Now
               </button>
               <button
                 className="secondary-info-btn"
                 onClick={() => scrollToSection('how-it-works')}
               >
-                Explore Technology ↓
+                Explore Technology
               </button>
             </div>
 
@@ -75,7 +75,6 @@ function Home() {
 
                 <div className="sim-node origin-node">
                   <div className="node-pulse"></div>
-                  <div className="node-icon">📍</div>
                   <div className="node-label">Emergency Call (GPS)</div>
                 </div>
 
@@ -92,12 +91,10 @@ function Home() {
 
                 <div className="ambulance-tracker">
                   <div className="ambulance-beacon"></div>
-                  <div className="ambulance-icon-box">🚑</div>
                 </div>
 
                 <div className="sim-node destination-node">
                   <div className="dest-glow"></div>
-                  <div className="node-icon">🏥</div>
                   <div className="node-label">Scored ER Hospital</div>
                 </div>
               </div>
@@ -113,7 +110,7 @@ function Home() {
                 </div>
                 <div className="telem-item">
                   <span className="telem-lbl">CARDIAC SPEC.</span>
-                  <span className="telem-val green">On Duty ✓</span>
+                  <span className="telem-val green">On Duty</span>
                 </div>
               </div>
             </div>
@@ -124,12 +121,12 @@ function Home() {
       <div className="live-ticker-bar">
         <div className="ticker-track">
           <span className="ticker-badge">LIVE NETWORK STATUS</span>
-          <span className="ticker-item">🟢 Poona Hospital · ICU: 3 Beds Open</span>
-          <span className="ticker-item">🟢 Ruby Hall Clinic · Trauma Specialist: On Duty</span>
-          <span className="ticker-item">🟢 Jehangir Hospital · Stroke Team: Active</span>
-          <span className="ticker-item">🟢 Sahyadri Hospital · ICU: 5 Beds Open</span>
-          <span className="ticker-item">🟢 KEM Hospital · Cardiac Cath Lab: Ready</span>
-          <span className="ticker-item">🟢 Poona Hospital · ICU: 3 Beds Open</span>
+          <span className="ticker-item"><span className="ticker-bullet"></span> Poona Hospital · ICU: 3 Beds Open</span>
+          <span className="ticker-item"><span className="ticker-bullet"></span> Ruby Hall Clinic · Trauma Specialist: On Duty</span>
+          <span className="ticker-item"><span className="ticker-bullet"></span> Jehangir Hospital · Stroke Team: Active</span>
+          <span className="ticker-item"><span className="ticker-bullet"></span> Sahyadri Hospital · ICU: 5 Beds Open</span>
+          <span className="ticker-item"><span className="ticker-bullet"></span> KEM Hospital · Cardiac Cath Lab: Ready</span>
+          <span className="ticker-item"><span className="ticker-bullet"></span> Poona Hospital · ICU: 3 Beds Open</span>
         </div>
       </div>
 
@@ -148,20 +145,17 @@ function Home() {
           <div className="steps-grid">
             <div className="step-card">
               <div className="step-number">01</div>
-              <div className="step-icon">📋</div>
               <h3>Select Emergency</h3>
               <p>Choose the medical condition (Cardiac, Trauma, Stroke, Burns) and confirm your location via GPS.</p>
             </div>
             <div className="step-card">
               <div className="step-number">02</div>
-              <div className="step-icon">🧠</div>
               <h3>ML Algorithmic Scoring</h3>
               <p>HLERS ranks facilities based on live Google Maps traffic ETA, ICU capacity, specialist readiness, and ER load.</p>
             </div>
             <div className="step-card">
               <div className="step-number">03</div>
-              <div className="step-icon">🔔</div>
-              <h3>Navigate & Alert ER</h3>
+              <h3>Navigate &amp; Alert ER</h3>
               <p>Get real-time map guidance and dispatch a pre-arrival notification directly to the hospital triage desk.</p>
             </div>
           </div>
@@ -180,20 +174,20 @@ function Home() {
               <div className="comp-tag">Standard Map Apps</div>
               <h3>Nearest Location Only</h3>
               <ul>
-                <li>❌ May direct you to a hospital with zero available ICU beds</li>
-                <li>❌ Doesn't verify if required specialist is on duty</li>
-                <li>❌ Ignores emergency room overload & wait times</li>
-                <li>❌ No pre-arrival notification to emergency department</li>
+                <li>May direct you to a hospital with zero available ICU beds</li>
+                <li>Does not verify if required specialist is on duty</li>
+                <li>Ignores emergency room overload and wait times</li>
+                <li>No pre-arrival notification to emergency department</li>
               </ul>
             </div>
             <div className="comparison-card hlers-highlight">
               <div className="comp-tag hlers">HLERS Emergency Engine</div>
               <h3>Capable Location Recommendation</h3>
               <ul>
-                <li>✓ Verifies live available ICU critical care beds</li>
-                <li>✓ Confirms specialist availability for your exact condition</li>
-                <li>✓ Factored live Google Maps traffic & driving duration</li>
-                <li>✓ Direct pre-arrival dispatch alert to the hospital desk</li>
+                <li>Verifies live available ICU critical care beds</li>
+                <li>Confirms specialist availability for your exact condition</li>
+                <li>Factored live Google Maps traffic and driving duration</li>
+                <li>Direct pre-arrival dispatch alert to the hospital desk</li>
               </ul>
             </div>
           </div>

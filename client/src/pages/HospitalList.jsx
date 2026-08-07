@@ -16,9 +16,8 @@ function HospitalList() {
     return (
       <div className="results-wrapper empty-layout">
         <div className="no-results-card">
-          <div className="no-results-icon">⚠️</div>
           <h1>No Available Hospitals Found</h1>
-          <p>We couldn't find matching emergency facilities for <strong>{emergencyType || 'this condition'}</strong> nearby.</p>
+          <p>We could not find matching emergency facilities for <strong>{emergencyType || 'this condition'}</strong> nearby.</p>
           <button onClick={() => navigate('/emergency')} className="primary-action-btn">
             ← Edit Emergency Details
           </button>
@@ -52,6 +51,7 @@ function HospitalList() {
         navigate('/alert-confirmation', {
           state: {
             hospital,
+            allHospitals: hospitals,
             emergencyType,
             userLocation,
             patientAge: Number(patientAge) || 30,
@@ -75,7 +75,7 @@ function HospitalList() {
               ← Re-triage Emergency
             </button>
             <div className="badge-group">
-              <span className="live-status-pill">● Live Dispatch Ready</span>
+              <span className="live-status-pill">Live Dispatch Ready</span>
               <span className="emergency-type-badge">
                 {emergencyType?.toUpperCase() || 'EMERGENCY'}
               </span>
@@ -87,14 +87,14 @@ function HospitalList() {
           <div className="hero-hospital-section">
             <div className="hero-rec-card">
               <div className="hero-badge-row">
-                <span className="top-choice-tag">⭐ #1 BEST MATCHED HOSPITAL</span>
+                <span className="top-choice-tag">#1 BEST MATCHED HOSPITAL</span>
                 {primaryHospital.hlers_score && (
                   <span className="ml-score-pill">ML Match Score: {primaryHospital.hlers_score}</span>
                 )}
               </div>
 
               <h1 className="hero-hospital-title">{primaryHospital.name}</h1>
-              <p className="hero-hospital-address">📍 {primaryHospital.address}</p>
+              <p className="hero-hospital-address">{primaryHospital.address}</p>
 
               <div className="hero-stats-grid">
                 <div className="hero-stat-box highlight">
@@ -126,7 +126,7 @@ function HospitalList() {
                         key={spec._id || spec.name}
                         className={`spec-pill ${spec.available ? 'active' : 'inactive'}`}
                       >
-                        {spec.type} {spec.available ? '✓' : '✗'}
+                        {spec.type} {spec.available ? '(Available)' : '(Unavailable)'}
                       </span>
                     ))}
                   </div>
@@ -138,7 +138,7 @@ function HospitalList() {
                 onClick={() => handleAlert(primaryHospital)}
                 disabled={!!dispatchingHospital}
               >
-                🔔 Alert Emergency Dept Now
+                Alert Emergency Dept Now
               </button>
             </div>
           </div>
@@ -153,7 +153,7 @@ function HospitalList() {
                       <span className="sec-rank-badge">Rank #{idx + 2}</span>
                       <h3 className="sec-hospital-title">{hospital.name}</h3>
                     </div>
-                    <p className="sec-hospital-address">📍 {hospital.address}</p>
+                    <p className="sec-hospital-address">{hospital.address}</p>
 
                     <div className="sec-stats-row">
                       <span><strong>ETA:</strong> {hospital.eta?.duration || 'N/A'}</span>

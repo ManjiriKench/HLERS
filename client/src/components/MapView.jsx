@@ -215,10 +215,9 @@ function MapView({ hospitals, userLocation, targetHospital, mode = 'overview', i
 
   return (
     <div className="map-gps-wrapper" style={{ width: '100%', height: '100%', position: 'relative' }}>
-      {mode !== 'overview' && currentRoute && (
+      {mode !== 'overview' && isNavigating && currentRoute && (
         <div className="gps-turn-hud">
           <div className="hud-primary-row">
-            <div className="hud-icon">🧭</div>
             <div className="hud-instruction">
               <span className="hud-next-step">
                 {steps[activeStep]?.instructions

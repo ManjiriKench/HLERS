@@ -32,6 +32,29 @@
   flex-direction: column;
 }
 
+.triage-panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.form-back-link {
+  background: none;
+  border: none;
+  color: var(--teal-dark);
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: var(--radius-sm);
+  transition: all 0.2s ease;
+}
+
+.form-back-link:hover {
+  background-color: var(--teal-light);
+}
+
 .step-tag {
   font-size: 0.72rem;
   font-weight: 800;
@@ -40,8 +63,6 @@
   padding: 3px 10px;
   border-radius: var(--radius-full);
   display: inline-block;
-  align-self: flex-start;
-  margin-bottom: 8px;
   letter-spacing: 0.5px;
 }
 
@@ -228,8 +249,20 @@
 }
 
 .gps-live-dot {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
   color: var(--green);
   margin-left: auto;
+}
+
+.live-gps-beacon {
+  width: 7px;
+  height: 7px;
+  background-color: var(--green);
+  border-radius: 50%;
+  box-shadow: 0 0 0 2px var(--green-light);
+  animation: beacon-blink 1.5s infinite;
 }
 
 .field-error {
