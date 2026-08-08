@@ -14,38 +14,62 @@ function Home() {
     }
   }
 
-  const simData = {
+  const hospitals = {
     cardiac: {
+      id: 'cardiac',
       label: 'Heart Attack',
-      dest: 'Heart Hospital & ICU',
+      name: 'Heart & ICU Center',
+      tag: 'Cardiac Hub',
       eta: '6 Mins (Live Traffic)',
       icu: '4 Open Beds',
-      spec: 'Cardiologist On Duty'
+      spec: 'Cardiologist On Duty',
+      distance: '3.2 km',
+      x: 345,
+      y: 50,
+      path: 'M 50,120 C 130,120 180,50 345,50'
     },
     stroke: {
+      id: 'stroke',
       label: 'Stroke / Brain',
-      dest: 'Stroke Emergency Bay',
+      name: 'Brain & Stroke Bay',
+      tag: 'Neuro ICU',
       eta: '8 Mins (Live Traffic)',
       icu: '3 Open Beds',
-      spec: 'Brain Team Ready'
+      spec: 'Neuro Team Ready',
+      distance: '4.7 km',
+      x: 345,
+      y: 190,
+      path: 'M 50,120 C 140,120 190,190 345,190'
     },
     trauma: {
+      id: 'trauma',
       label: 'Accident / Injury',
-      dest: 'Trauma Emergency Center',
+      name: 'Trauma Emergency Hub',
+      tag: 'Level-1 Trauma',
       eta: '5 Mins (Live Traffic)',
       icu: '5 Open Beds',
-      spec: 'Surgeon On Duty'
+      spec: 'Surgeon On Duty',
+      distance: '2.8 km',
+      x: 345,
+      y: 120,
+      path: 'M 50,120 C 160,120 240,120 345,120'
     },
     burns: {
+      id: 'burns',
       label: 'Burn Emergency',
-      dest: 'Specialized Burn Unit',
+      name: 'Specialized Burn Unit',
+      tag: 'Burn ICU',
       eta: '11 Mins (Live Traffic)',
       icu: '2 Open Beds',
-      spec: 'Burn Team Ready'
+      spec: 'Burn Team Ready',
+      distance: '6.4 km',
+      x: 240,
+      y: 45,
+      path: 'M 50,120 C 110,120 170,45 240,45'
     }
   }
 
-  const currentSim = simData[activeSim] || simData.cardiac
+  const currentHospital = hospitals[activeSim] || hospitals.cardiac
 
   return (
     <div className="home-page">
@@ -76,7 +100,7 @@ function Home() {
               </button>
               <button
                 className="secondary-info-btn"
-                onClick={() => scrollToSection('bento-grid')}
+                onClick={() => scrollToSection('comparison-section')}
               >
                 How It Works
               </button>
@@ -101,20 +125,20 @@ function Home() {
           </div>
 
           <div className="hero-visual-column">
-            <div className="simulation-card slate-theme">
+            <div className="sim-interactive-deck">
               <div className="sim-header">
                 <div className="sim-header-left">
                   <span className="sim-radar-dot"></span>
-                  <span className="sim-header-title">LIVE ROUTING SIMULATION</span>
+                  <span className="sim-header-title">LIVE MULTI-HOSPITAL ROUTING</span>
                 </div>
                 <div className="sim-tabs-group">
-                  {Object.keys(simData).map((key) => (
+                  {Object.keys(hospitals).map((key) => (
                     <button
                       key={key}
                       className={`sim-tab-pill ${activeSim === key ? 'active' : ''}`}
                       onClick={() => setActiveSim(key)}
                     >
-                      {simData[key].label.toUpperCase()}
+                      {hospitals[key].label.toUpperCase()}
                     </button>
                   ))}
                 </div>
@@ -128,40 +152,138 @@ function Home() {
                   <div className="node-label">Your Location</div>
                 </div>
 
-                <svg className="sim-route-svg" viewBox="0 0 400 220" preserveAspectRatio="none">
-                  <path
-                    className="route-path-background"
-                    d="M 60,60 C 140,60 160,160 250,160 C 300,160 320,80 340,80"
-                  />
-                  <path
-                    className="route-path-animated"
-                    d="M 60,60 C 140,60 160,160 250,160 C 300,160 320,80 340,80"
-                  />
+                <svg className="sim-route-svg" viewBox="0 0 400 240" preserveAspectRatio="none">
+                  {Object.keys(hospitals).map((key) => {
+                    const hosp = hospitals[key]
+                    const isSelected = activeSim === key
+                    return (
+                      <path
+                        key={key}
+                        className={isSelected ? 'route-path-animated' : 'route-path-idle'}
+                        d={hosp.path}
+                      />
+                    )
+                  })}
                 </svg>
 
-                <div className="ambulance-tracker">
+                <div
+                  className="ambulance-tracker"
+                  style={{ offsetPath: `path("${currentHospital.path}")` }}
+                >
                   <div className="ambulance-beacon"></div>
                 </div>
 
-                <div className="sim-node destination-node">
-                  <div className="dest-glow"></div>
-                  <div className="node-label">{currentSim.dest}</div>
-                </div>
+                {Object.keys(hospitals).map((key) => {
+                  const hosp = hospitals[key]
+                  const isSelected = activeSim === key
+                  return (
+                    <div
+                      key={key}
+                      className={`sim-node hospital-node hosp-${key} ${isSelected ? 'active-target' : 'idle-target'}`}
+                      onClick={() => setActiveSim(key)}
+                    >
+                      <div className={`dest-glow ${isSelected ? 'selected-glow' : 'idle-glow'}`}></div>
+                      <div className="node-label">{hosp.name}</div>
+                    </div>
+                  )
+                })}
               </div>
 
               <div className="sim-telemetry slate-telemetry">
                 <div className="telem-item">
                   <span className="telem-lbl">DRIVE DURATION</span>
-                  <span className="telem-val">{currentSim.eta}</span>
+                  <span className="telem-val">{currentHospital.eta}</span>
                 </div>
                 <div className="telem-item">
                   <span className="telem-lbl">ICU BEDS</span>
-                  <span className="telem-val green">{currentSim.icu}</span>
+                  <span className="telem-val green">{currentHospital.icu}</span>
                 </div>
                 <div className="telem-item">
                   <span className="telem-lbl">DOCTOR STATUS</span>
-                  <span className="telem-val green">{currentSim.spec}</span>
+                  <span className="telem-val green">{currentHospital.spec}</span>
                 </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="comparison-section" className="terminal-comparison-section">
+        <div className="section-container">
+          <div className="section-header-compact">
+            <div className="section-kicker">THE CRITICAL DIFFERENCE</div>
+            <h2 className="section-heading">Why Regular Maps Are Not Enough in Emergencies</h2>
+            <p className="section-subtext">Driving to the closest building without knowing if they have beds causes fatal delays.</p>
+          </div>
+
+          <div className="comparison-terminal-deck">
+            <div className="terminal-card legacy-terminal">
+              <div className="terminal-top-bar">
+                <span className="terminal-status red">REGULAR MAP APPS</span>
+                <span className="terminal-label">Nearest Location Only</span>
+              </div>
+
+              <div className="terminal-content">
+                <h3 className="terminal-title">The "Closest Building" Problem</h3>
+                <p className="terminal-summary">Regular maps guide you only by distance and know nothing about hospital readiness.</p>
+
+                <div className="terminal-scenario-box warning">
+                  <div className="scenario-row">
+                    <span className="scenario-label">Driving Time:</span>
+                    <span className="scenario-value">4 Mins (Closest)</span>
+                  </div>
+                  <div className="scenario-row">
+                    <span className="scenario-label">ICU Beds:</span>
+                    <span className="scenario-value red-text">0 Beds (Hospital Full)</span>
+                  </div>
+                  <div className="scenario-row">
+                    <span className="scenario-label">Specialist:</span>
+                    <span className="scenario-value red-text">Doctor Not Available</span>
+                  </div>
+                  <div className="scenario-outcome red">
+                    Danger: Patient is turned away and must find another hospital (20+ mins lost)
+                  </div>
+                </div>
+
+                <ul className="terminal-list">
+                  <li>No way of checking bed capacity before you drive</li>
+                  <li>No pre-alert sent to doctors before you arrive</li>
+                </ul>
+              </div>
+            </div>
+
+            <div className="terminal-card hlers-terminal">
+              <div className="terminal-top-bar">
+                <span className="terminal-status teal">HLERS EMERGENCY SYSTEM</span>
+                <span className="terminal-label highlight">Ready &amp; Capable</span>
+              </div>
+
+              <div className="terminal-content">
+                <h3 className="terminal-title">The "Ready &amp; Capable" Solution</h3>
+                <p className="terminal-summary">Finds the fastest hospital that actually has open beds and the right doctors on duty.</p>
+
+                <div className="terminal-scenario-box success">
+                  <div className="scenario-row">
+                    <span className="scenario-label">Driving Time:</span>
+                    <span className="scenario-value">6 Mins (Live Traffic)</span>
+                  </div>
+                  <div className="scenario-row">
+                    <span className="scenario-label">ICU Beds:</span>
+                    <span className="scenario-value green-text">4 Open Beds Guaranteed</span>
+                  </div>
+                  <div className="scenario-row">
+                    <span className="scenario-label">Specialist:</span>
+                    <span className="scenario-value green-text">Doctor Alerted &amp; Ready</span>
+                  </div>
+                  <div className="scenario-outcome green">
+                    Result: Immediate treatment upon arrival with zero wasted time
+                  </div>
+                </div>
+
+                <ul className="terminal-list highlight">
+                  <li>Direct alert sent to the emergency room desk</li>
+                  <li>Turn-by-turn live navigation directly to emergency gates</li>
+                </ul>
               </div>
             </div>
           </div>
@@ -289,109 +411,6 @@ function Home() {
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="terminal-comparison-section">
-        <div className="section-container">
-          <div className="section-header-compact">
-            <div className="section-kicker">THE CRITICAL DIFFERENCE</div>
-            <h2 className="section-heading">Why Regular Maps Are Not Enough in Emergencies</h2>
-            <p className="section-subtext">Driving to the closest building without knowing if they have beds causes fatal delays.</p>
-          </div>
-
-          <div className="comparison-terminal-deck">
-            <div className="terminal-card legacy-terminal">
-              <div className="terminal-top-bar">
-                <span className="terminal-status red">REGULAR MAP APPS</span>
-                <span className="terminal-label">Nearest Location Only</span>
-              </div>
-
-              <div className="terminal-content">
-                <h3 className="terminal-title">The "Closest Building" Problem</h3>
-                <p className="terminal-summary">Regular maps guide you only by distance and know nothing about hospital readiness.</p>
-
-                <div className="terminal-scenario-box warning">
-                  <div className="scenario-row">
-                    <span className="scenario-label">Driving Time:</span>
-                    <span className="scenario-value">4 Mins (Closest)</span>
-                  </div>
-                  <div className="scenario-row">
-                    <span className="scenario-label">ICU Beds:</span>
-                    <span className="scenario-value red-text">0 Beds (Hospital Full)</span>
-                  </div>
-                  <div className="scenario-row">
-                    <span className="scenario-label">Specialist:</span>
-                    <span className="scenario-value red-text">Doctor Not Available</span>
-                  </div>
-                  <div className="scenario-outcome red">
-                    Danger: Patient is turned away and must find another hospital (20+ mins lost)
-                  </div>
-                </div>
-
-                <ul className="terminal-list">
-                  <li>No way of checking bed capacity before you drive</li>
-                  <li>No pre-alert sent to doctors before you arrive</li>
-                </ul>
-              </div>
-            </div>
-
-            <div className="terminal-card hlers-terminal">
-              <div className="terminal-top-bar">
-                <span className="terminal-status teal">HLERS EMERGENCY SYSTEM</span>
-                <span className="terminal-label highlight">Ready &amp; Capable</span>
-              </div>
-
-              <div className="terminal-content">
-                <h3 className="terminal-title">The "Ready &amp; Capable" Solution</h3>
-                <p className="terminal-summary">Finds the fastest hospital that actually has open beds and the right doctors on duty.</p>
-
-                <div className="terminal-scenario-box success">
-                  <div className="scenario-row">
-                    <span className="scenario-label">Driving Time:</span>
-                    <span className="scenario-value">6 Mins (Live Traffic)</span>
-                  </div>
-                  <div className="scenario-row">
-                    <span className="scenario-label">ICU Beds:</span>
-                    <span className="scenario-value green-text">4 Open Beds Guaranteed</span>
-                  </div>
-                  <div className="scenario-row">
-                    <span className="scenario-label">Specialist:</span>
-                    <span className="scenario-value green-text">Doctor Alerted &amp; Ready</span>
-                  </div>
-                  <div className="scenario-outcome green">
-                    Result: Immediate treatment upon arrival with zero wasted time
-                  </div>
-                </div>
-
-                <ul className="terminal-list highlight">
-                  <li>Direct alert sent to the emergency room desk</li>
-                  <li>Turn-by-turn live navigation directly to emergency gates</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="action-banner-section">
-        <div className="section-container">
-          <div className="action-banner-card">
-            <div className="action-banner-glow"></div>
-            <div className="action-banner-content">
-              <span className="action-kicker">INSTANT EMERGENCY ACCESS</span>
-              <h2 className="action-title">Every Second Counts in a Medical Emergency</h2>
-              <p className="action-subtitle">
-                Select your patient's emergency condition and find the most capable hospital with open beds in under 30 seconds.
-              </p>
-            </div>
-            <button
-              className="action-launch-btn"
-              onClick={() => navigate('/emergency')}
-            >
-              Find Best Hospital Now
-            </button>
           </div>
         </div>
       </section>

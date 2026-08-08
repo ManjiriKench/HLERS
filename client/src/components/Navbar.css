@@ -1,51 +1,57 @@
-.navbar {
-  height: 68px;
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  border-bottom: 1px solid var(--border);
-  position: sticky;
-  top: 0;
+.navbar-wrapper {
+  position: relative;
+  width: 100%;
+  padding: 14px 24px 6px 24px;
   z-index: 100;
-  box-shadow: 0 2px 10px rgba(15, 94, 99, 0.05);
 }
 
-.navbar-container {
+.navbar-island {
   max-width: 1240px;
-  height: 100%;
   margin: 0 auto;
-  padding: 0 28px;
+  background: linear-gradient(135deg, rgba(15, 94, 99, 0.95) 0%, rgba(13, 62, 67, 0.96) 50%, rgba(9, 43, 47, 0.98) 100%);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(45, 212, 191, 0.35);
+  border-radius: 9999px;
+  padding: 10px 24px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.25), 0 12px 32px rgba(10, 40, 44, 0.22);
+  transition: all 0.25s ease;
+}
+
+.navbar-island:hover {
+  border-color: rgba(45, 212, 191, 0.55);
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.35), 0 14px 38px rgba(10, 40, 44, 0.3);
 }
 
 .navbar-left {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
   cursor: pointer;
   user-select: none;
 }
 
 .brand-badge-wrap {
-  width: 34px;
-  height: 34px;
-  background-color: var(--teal-light);
-  border: 1px solid var(--teal-mid);
-  border-radius: 8px;
+  width: 32px;
+  height: 32px;
+  background-color: rgba(45, 212, 191, 0.18);
+  border: 1px solid rgba(45, 212, 191, 0.45);
+  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .brand-dot {
-  width: 12px;
-  height: 12px;
-  background-color: var(--red);
+  width: 10px;
+  height: 10px;
+  background-color: #EF4444;
   border-radius: 50%;
-  box-shadow: 0 0 0 2px rgba(211, 47, 47, 0.2);
-  animation: beacon-blink 2s infinite;
+  box-shadow: 0 0 10px rgba(239, 68, 68, 0.9);
+  animation: beacon-blink 1.8s infinite;
 }
 
 .brand-text-stack {
@@ -54,44 +60,45 @@
 }
 
 .navbar-logo {
-  font-size: 1.25rem;
+  font-size: 1.22rem;
   font-weight: 900;
   letter-spacing: -0.5px;
-  color: var(--teal-dark);
+  color: var(--white);
   line-height: 1.1;
 }
 
 .navbar-tagline {
-  font-size: 0.65rem;
-  font-weight: 700;
-  color: var(--text-muted);
+  font-size: 0.62rem;
+  font-weight: 800;
+  color: #5EEAD4;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.8px;
 }
 
 .navbar-center-status {
   display: flex;
   align-items: center;
   gap: 8px;
-  background-color: var(--green-light);
+  background: linear-gradient(135deg, rgba(34, 197, 94, 0.2) 0%, rgba(22, 101, 52, 0.3) 100%);
+  border: 1px solid rgba(74, 222, 128, 0.4);
   padding: 6px 14px;
   border-radius: var(--radius-full);
-  border: 1px solid rgba(22, 101, 52, 0.2);
 }
 
 .grid-status-beacon {
   width: 7px;
   height: 7px;
-  background-color: var(--green);
+  background-color: #22C55E;
   border-radius: 50%;
-  box-shadow: 0 0 0 2px rgba(22, 101, 52, 0.2);
+  box-shadow: 0 0 8px rgba(34, 197, 94, 0.9);
   animation: beacon-blink 1.5s infinite;
 }
 
 .grid-status-text {
   font-size: 0.76rem;
   font-weight: 700;
-  color: var(--green);
+  color: #A7F3D0;
+  letter-spacing: 0.3px;
 }
 
 .navbar-right {
@@ -101,42 +108,58 @@
 }
 
 .navbar-108-link {
-  font-size: 0.84rem;
+  font-size: 0.82rem;
   font-weight: 700;
-  color: var(--teal-dark);
+  color: #E2E8F0;
   padding: 8px 14px;
   border-radius: var(--radius-full);
-  border: 1px solid var(--border);
-  background-color: var(--white);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background-color: rgba(255, 255, 255, 0.08);
   transition: all 0.2s ease;
   text-decoration: none;
 }
 
 .navbar-108-link:hover {
-  background-color: var(--teal-light);
-  border-color: var(--teal-mid);
+  background-color: rgba(255, 255, 255, 0.16);
+  color: var(--white);
+  border-color: rgba(255, 255, 255, 0.35);
 }
 
 .navbar-btn {
   padding: 9px 20px;
-  background-color: var(--red);
+  background: linear-gradient(135deg, #EF4444 0%, #DC2626 100%);
   color: var(--white);
   border-radius: var(--radius-full);
-  font-weight: 700;
+  font-weight: 800;
   font-size: 0.86rem;
   transition: all 0.2s ease;
-  box-shadow: 0 3px 8px rgba(197, 48, 48, 0.25);
+  box-shadow: 0 4px 14px rgba(211, 47, 47, 0.4);
   cursor: pointer;
+  border: 1px solid rgba(255, 255, 255, 0.25);
 }
 
 .navbar-btn:hover {
-  background-color: #A82828;
+  background: linear-gradient(135deg, #DC2626 0%, #B91C1C 100%);
   transform: translateY(-1px);
-  box-shadow: 0 5px 12px rgba(197, 48, 48, 0.35);
+  box-shadow: 0 6px 18px rgba(211, 47, 47, 0.5);
 }
 
-@media (max-width: 768px) {
+@media (max-width: 860px) {
   .navbar-center-status {
+    display: none;
+  }
+}
+
+@media (max-width: 600px) {
+  .navbar-wrapper {
+    padding: 8px 12px;
+  }
+
+  .navbar-island {
+    padding: 8px 14px;
+  }
+
+  .navbar-108-link {
     display: none;
   }
 }
