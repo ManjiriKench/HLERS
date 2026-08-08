@@ -143,6 +143,10 @@ router.post('/nearby', async (req, res) => {
       });
     }
 
+    const targetType = (emergencyType === 'other' || emergencyType === 'general')
+      ? { $in: ['general', 'other'] }
+      : emergencyType;
+
     const hospitals = await Hospital.find({
       location: {
         $near: {
@@ -150,11 +154,11 @@ router.post('/nearby', async (req, res) => {
             type: 'Point',
             coordinates: [longitude, latitude],
           },
-          $maxDistance: maxDistance || 10000,
+          $maxDistance: maxDistance || 30000,
         },
       },
       emergencyDeptOpen: true,
-      emergencyTypes: emergencyType,
+      emergencyTypes: targetType,
     });
 
     const hospitalsWithETA = await Promise.all(

@@ -48,7 +48,7 @@ const hospitalSchema = new mongoose.Schema({
     },
     emergencyTypes: {
         type: [String],
-        enum: ['cardiac','trauma','burns','general','stroke'],
+        enum: ['cardiac','trauma','burns','general','stroke','other'],
         required: true
     },
     totalICUBeds: {
