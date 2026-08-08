@@ -3,6 +3,9 @@
   --teal-mid: #138A8A;
   --teal-light: #EBF4F4;
   --teal-bg: #F5F9F9;
+  --blue-primary: #205493;
+  --blue-canvas: #0E2344;
+  --blue-glow: rgba(32, 84, 147, 0.25);
   --red: #C53030;
   --red-light: #FDF0F0;
   --green: #1B806A;
@@ -27,7 +30,8 @@
   box-sizing: border-box;
 }
 
-html, body {
+html,
+body {
   font-family: var(--font);
   background-color: var(--teal-bg);
   color: var(--text-primary);
@@ -35,21 +39,24 @@ html, body {
   -webkit-font-smoothing: antialiased;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: var(--font);
   color: var(--text-primary);
-  font-weight: 700;
-  line-height: 1.25;
 }
 
 button {
-  cursor: pointer;
+  font-family: var(--font);
   border: none;
   outline: none;
-  font-family: var(--font);
+  cursor: pointer;
 }
 
-input, select, textarea {
-  outline: none;
-  font-family: var(--font);
+a {
+  text-decoration: none;
+  color: inherit;
 }
