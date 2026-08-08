@@ -16,36 +16,32 @@ function Home() {
 
   const simData = {
     cardiac: {
-      label: 'Cardiac Emergency',
-      dest: 'Cath Lab & Cardiac ICU',
-      eta: '6.4 Mins',
-      icu: '4 Beds Open',
-      spec: 'Cardiologist On Duty',
-      code: 'STEMI PROTOCOL'
+      label: 'Heart Attack',
+      dest: 'Heart Hospital & ICU',
+      eta: '6 Mins (Live Traffic)',
+      icu: '4 Open Beds',
+      spec: 'Cardiologist On Duty'
     },
     stroke: {
-      label: 'Acute Stroke',
-      dest: 'Comprehensive Stroke Bay',
-      eta: '8.2 Mins',
-      icu: '3 Beds Open',
-      spec: 'Neuro Team Ready',
-      code: 'THROMBOLYSIS READY'
+      label: 'Stroke / Brain',
+      dest: 'Stroke Emergency Bay',
+      eta: '8 Mins (Live Traffic)',
+      icu: '3 Open Beds',
+      spec: 'Brain Team Ready'
     },
     trauma: {
-      label: 'Severe Trauma',
-      dest: 'Level 1 Trauma Bay',
-      eta: '5.8 Mins',
-      icu: '5 Beds Open',
-      spec: 'Trauma Surgeon Active',
-      code: 'RED ALERT TRAUMA'
+      label: 'Accident / Injury',
+      dest: 'Trauma Emergency Center',
+      eta: '5 Mins (Live Traffic)',
+      icu: '5 Open Beds',
+      spec: 'Surgeon On Duty'
     },
     burns: {
       label: 'Burn Emergency',
       dest: 'Specialized Burn Unit',
-      eta: '11.0 Mins',
-      icu: '2 Beds Open',
-      spec: 'Burn ICU Team Ready',
-      code: 'CRITICAL CARE'
+      eta: '11 Mins (Live Traffic)',
+      icu: '2 Open Beds',
+      spec: 'Burn Team Ready'
     }
   }
 
@@ -65,11 +61,11 @@ function Home() {
               Real-Time Emergency Decision Engine
             </div>
             <h1 className="hero-title">
-              The <span className="highlight-teal">right</span> hospital.<br />
+              Find the <span className="highlight-teal">right</span> hospital.<br />
               Not just the <span className="highlight-red">nearest</span> one.
             </h1>
             <p className="hero-description">
-              In critical conditions, saving 5 minutes at a facility without an available ICU bed or on-duty specialist is fatal. HLERS factors live traffic, specialist readiness, and bed capacity for instant routing.
+              In critical emergencies like heart attacks, stroke, or accidents, reaching the closest hospital is useless if they have no open ICU beds or the right specialist. HLERS finds you the fastest hospital with ready doctors and open beds.
             </p>
             <div className="hero-cta-group">
               <button
@@ -82,19 +78,19 @@ function Home() {
                 className="secondary-info-btn"
                 onClick={() => scrollToSection('bento-grid')}
               >
-                Explore Technology
+                How It Works
               </button>
             </div>
 
             <div className="hero-metrics">
               <div className="metric-item">
                 <span className="metric-val">&lt; 30s</span>
-                <span className="metric-lbl">Triage Time</span>
+                <span className="metric-lbl">Decision Speed</span>
               </div>
               <div className="metric-divider"></div>
               <div className="metric-item">
                 <span className="metric-val">Live</span>
-                <span className="metric-lbl">ICU Sync</span>
+                <span className="metric-lbl">Bed Tracking</span>
               </div>
               <div className="metric-divider"></div>
               <div className="metric-item">
@@ -118,7 +114,7 @@ function Home() {
                       className={`sim-tab-pill ${activeSim === key ? 'active' : ''}`}
                       onClick={() => setActiveSim(key)}
                     >
-                      {key.toUpperCase()}
+                      {simData[key].label.toUpperCase()}
                     </button>
                   ))}
                 </div>
@@ -129,7 +125,7 @@ function Home() {
 
                 <div className="sim-node origin-node">
                   <div className="node-pulse"></div>
-                  <div className="node-label">Emergency GPS</div>
+                  <div className="node-label">Your Location</div>
                 </div>
 
                 <svg className="sim-route-svg" viewBox="0 0 400 220" preserveAspectRatio="none">
@@ -155,15 +151,15 @@ function Home() {
 
               <div className="sim-telemetry slate-telemetry">
                 <div className="telem-item">
-                  <span className="telem-lbl">EST. DRIVE TIME</span>
+                  <span className="telem-lbl">DRIVE DURATION</span>
                   <span className="telem-val">{currentSim.eta}</span>
                 </div>
                 <div className="telem-item">
-                  <span className="telem-lbl">ICU CAPACITY</span>
+                  <span className="telem-lbl">ICU BEDS</span>
                   <span className="telem-val green">{currentSim.icu}</span>
                 </div>
                 <div className="telem-item">
-                  <span className="telem-lbl">SPECIALIST STATUS</span>
+                  <span className="telem-lbl">DOCTOR STATUS</span>
                   <span className="telem-val green">{currentSim.spec}</span>
                 </div>
               </div>
@@ -175,9 +171,9 @@ function Home() {
       <section id="bento-grid" className="bento-showcase-section">
         <div className="section-container">
           <div className="section-header-compact">
-            <div className="section-kicker">INTELLIGENCE PLATFORM</div>
-            <h2 className="section-heading">Engineered for Zero-Delay Emergency Decisions</h2>
-            <p className="section-subtext">Three synchronized clinical telemetry streams converge into an instantaneous survival score.</p>
+            <div className="section-kicker">THREE PROTECTIONS IN EVERY EMERGENCY</div>
+            <h2 className="section-heading">How HLERS Finds Your Best Hospital</h2>
+            <p className="section-subtext">We check three critical life-saving factors in real time before recommending any facility.</p>
           </div>
 
           <div className="bento-grid-layout">
@@ -187,33 +183,33 @@ function Home() {
             >
               <div className="bento-card-bg-glow glow-teal"></div>
               <div className="bento-top-row">
-                <span className="bento-tag">LAYER 01 · ROUTING DYNAMICS</span>
-                <span className="bento-live-badge">Live API Sync</span>
+                <span className="bento-tag">STEP 1 · TRAFFIC NAVIGATION</span>
+                <span className="bento-live-badge">Live Maps Sync</span>
               </div>
 
               <div className="bento-body">
-                <h3 className="bento-title">Google Maps Traffic Engine</h3>
+                <h3 className="bento-title">Fastest Route With Live Traffic</h3>
                 <p className="bento-description">
-                  Sub-second traffic matrix calculations project exact real-time driving duration to every emergency room in the metropolitan grid, accounting for live congestion spikes and roadblock deviations.
+                  Calculates the quickest driving route to every nearby hospital using live Google Maps traffic so you avoid roadblocks and traffic jams.
                 </p>
 
                 <div className="bento-interactive-graphic route-graphic">
                   <div className="mini-telemetry-bar">
                     <div className="mini-telem-point">
                       <span className="dot origin"></span>
-                      <span>User Origin</span>
+                      <span>You</span>
                     </div>
                     <div className="mini-telem-line">
                       <span className="traveling-pulse"></span>
                     </div>
                     <div className="mini-telem-point">
                       <span className="dot dest"></span>
-                      <span>Target Hospital ER</span>
+                      <span>Hospital ER</span>
                     </div>
                   </div>
                   <div className="mini-speed-readout">
-                    <span>Peak Optimization: <strong>Dynamic Isochrone Polylines</strong></span>
-                    <span className="latency-pill">Latency &lt; 140ms</span>
+                    <span>Live Traffic Analysis: <strong>Avoids Roadblocks</strong></span>
+                    <span className="latency-pill">Instant Routing</span>
                   </div>
                 </div>
               </div>
@@ -225,20 +221,20 @@ function Home() {
             >
               <div className="bento-card-bg-glow glow-green"></div>
               <div className="bento-top-row">
-                <span className="bento-tag">LAYER 02 · CAPACITY</span>
+                <span className="bento-tag">STEP 2 · BED AVAILABILITY</span>
                 <span className="bento-metric-pill">Real-Time</span>
               </div>
 
               <div className="bento-body">
-                <h3 className="bento-title">Critical Care Bed Telemetry</h3>
+                <h3 className="bento-title">Guarantees Open ICU Beds</h3>
                 <p className="bento-description">
-                  Monitors live emergency ICU bed availability, operational mechanical ventilators, and active catheterization bay readiness to prevent dead-end arrivals.
+                  Checks available intensive care beds and emergency equipment before you travel, so you never arrive at a full hospital.
                 </p>
 
                 <div className="bento-interactive-graphic icu-graphic">
                   <div className="icu-meter-header">
-                    <span>Emergency ICU Availability</span>
-                    <strong className="green-text">Live Verified</strong>
+                    <span>Emergency ICU Capacity</span>
+                    <strong className="green-text">Verified Open</strong>
                   </div>
                   <div className="segmented-capacity-bar">
                     <div className="cap-segment filled"></div>
@@ -249,8 +245,8 @@ function Home() {
                     <div className="cap-segment empty"></div>
                   </div>
                   <div className="meter-footer">
-                    <span>4 Critical Bays Standing By</span>
-                    <span>Load Index: <strong>3.2/10</strong></span>
+                    <span>4 Critical Care Beds Ready</span>
+                    <span>Status: <strong>Available</strong></span>
                   </div>
                 </div>
               </div>
@@ -262,32 +258,32 @@ function Home() {
             >
               <div className="bento-card-bg-glow glow-blue"></div>
               <div className="bento-top-row">
-                <span className="bento-tag">LAYER 03 · CLINICAL TRIAGE</span>
+                <span className="bento-tag">STEP 3 · DOCTOR READINESS</span>
                 <span className="bento-metric-pill">On Duty</span>
               </div>
 
               <div className="bento-body">
-                <h3 className="bento-title">Specialist Roster Matching</h3>
+                <h3 className="bento-title">Ensures the Right Doctor Is There</h3>
                 <p className="bento-description">
-                  Synchronizes patient emergency condition with verified on-duty specialists across Cardiology, Neurology, Orthopedic Trauma, and Burn Critical Care.
+                  Confirms that heart doctors, brain specialists, or trauma surgeons are actively on duty and ready to treat the patient immediately.
                 </p>
 
                 <div className="bento-interactive-graphic specialist-graphic">
                   <div className="spec-badge-stack">
                     <div className="spec-item active">
                       <span className="spec-status-dot"></span>
-                      <span>Interventional Cardiologist</span>
-                      <span className="spec-state">Active</span>
+                      <span>Heart Specialist</span>
+                      <span className="spec-state">Ready</span>
                     </div>
                     <div className="spec-item active">
                       <span className="spec-status-dot"></span>
-                      <span>Neuro-Trauma Surgeon</span>
-                      <span className="spec-state">Active</span>
+                      <span>Brain &amp; Stroke Doctor</span>
+                      <span className="spec-state">Ready</span>
                     </div>
                     <div className="spec-item standby">
                       <span className="spec-status-dot standby"></span>
-                      <span>Burn Critical Unit</span>
-                      <span className="spec-state">Ready</span>
+                      <span>Trauma Surgeon</span>
+                      <span className="spec-state">On Duty</span>
                     </div>
                   </div>
                 </div>
@@ -300,78 +296,78 @@ function Home() {
       <section className="terminal-comparison-section">
         <div className="section-container">
           <div className="section-header-compact">
-            <div className="section-kicker">DECISION PARADIGM</div>
-            <h2 className="section-heading">Why Distance Is The Wrong Metric In Emergencies</h2>
-            <p className="section-subtext">Navigating to the nearest hospital without confirmed capacity leads to fatal secondary transfers.</p>
+            <div className="section-kicker">THE CRITICAL DIFFERENCE</div>
+            <h2 className="section-heading">Why Regular Maps Are Not Enough in Emergencies</h2>
+            <p className="section-subtext">Driving to the closest building without knowing if they have beds causes fatal delays.</p>
           </div>
 
           <div className="comparison-terminal-deck">
             <div className="terminal-card legacy-terminal">
               <div className="terminal-top-bar">
-                <span className="terminal-status red">STANDARD NAVIGATION</span>
-                <span className="terminal-label">Traditional Maps</span>
+                <span className="terminal-status red">REGULAR MAP APPS</span>
+                <span className="terminal-label">Nearest Location Only</span>
               </div>
 
               <div className="terminal-content">
-                <h3 className="terminal-title">The "Nearest" Trap</h3>
-                <p className="terminal-summary">Routes strictly by geographic proximity, blind to emergency capabilities.</p>
+                <h3 className="terminal-title">The "Closest Building" Problem</h3>
+                <p className="terminal-summary">Regular maps guide you only by distance and know nothing about hospital readiness.</p>
 
                 <div className="terminal-scenario-box warning">
                   <div className="scenario-row">
-                    <span className="scenario-label">Travel Time:</span>
-                    <span className="scenario-value">4.2 Mins (Nearest)</span>
+                    <span className="scenario-label">Driving Time:</span>
+                    <span className="scenario-value">4 Mins (Closest)</span>
                   </div>
                   <div className="scenario-row">
                     <span className="scenario-label">ICU Beds:</span>
-                    <span className="scenario-value red-text">0 Available (Full)</span>
+                    <span className="scenario-value red-text">0 Beds (Hospital Full)</span>
                   </div>
                   <div className="scenario-row">
                     <span className="scenario-label">Specialist:</span>
-                    <span className="scenario-value red-text">Not On Duty</span>
+                    <span className="scenario-value red-text">Doctor Not Available</span>
                   </div>
                   <div className="scenario-outcome red">
-                    Outcome: Secondary transfer required (+22 mins critical delay)
+                    Danger: Patient is turned away and must find another hospital (20+ mins lost)
                   </div>
                 </div>
 
                 <ul className="terminal-list">
-                  <li>No hospital triage notification before arrival</li>
-                  <li>Ignores emergency bay overcrowding &amp; wait queues</li>
+                  <li>No way of checking bed capacity before you drive</li>
+                  <li>No pre-alert sent to doctors before you arrive</li>
                 </ul>
               </div>
             </div>
 
             <div className="terminal-card hlers-terminal">
               <div className="terminal-top-bar">
-                <span className="terminal-status teal">HLERS INTELLIGENCE</span>
-                <span className="terminal-label highlight">Survival Optimization</span>
+                <span className="terminal-status teal">HLERS EMERGENCY SYSTEM</span>
+                <span className="terminal-label highlight">Ready &amp; Capable</span>
               </div>
 
               <div className="terminal-content">
-                <h3 className="terminal-title">The "Capable" Destination</h3>
-                <p className="terminal-summary">Calculates clinical readiness, live traffic, and bed availability simultaneously.</p>
+                <h3 className="terminal-title">The "Ready &amp; Capable" Solution</h3>
+                <p className="terminal-summary">Finds the fastest hospital that actually has open beds and the right doctors on duty.</p>
 
                 <div className="terminal-scenario-box success">
                   <div className="scenario-row">
-                    <span className="scenario-label">Travel Time:</span>
-                    <span className="scenario-value">6.4 Mins (+2 mins driving)</span>
+                    <span className="scenario-label">Driving Time:</span>
+                    <span className="scenario-value">6 Mins (Live Traffic)</span>
                   </div>
                   <div className="scenario-row">
                     <span className="scenario-label">ICU Beds:</span>
-                    <span className="scenario-value green-text">4 Verified Available</span>
+                    <span className="scenario-value green-text">4 Open Beds Guaranteed</span>
                   </div>
                   <div className="scenario-row">
                     <span className="scenario-label">Specialist:</span>
-                    <span className="scenario-value green-text">Cardiologist Standing By</span>
+                    <span className="scenario-value green-text">Doctor Alerted &amp; Ready</span>
                   </div>
                   <div className="scenario-outcome green">
-                    Outcome: Direct Cath-Lab intake upon arrival (0 minutes lost)
+                    Result: Immediate treatment upon arrival with zero wasted time
                   </div>
                 </div>
 
                 <ul className="terminal-list highlight">
-                  <li>Pre-arrival triage alert dispatched directly to ER desk</li>
-                  <li>Live in-app GPS driving guidance with turn HUD</li>
+                  <li>Direct alert sent to the emergency room desk</li>
+                  <li>Turn-by-turn live navigation directly to emergency gates</li>
                 </ul>
               </div>
             </div>
@@ -384,17 +380,17 @@ function Home() {
           <div className="action-banner-card">
             <div className="action-banner-glow"></div>
             <div className="action-banner-content">
-              <span className="action-kicker">INSTANT ACCESS PROTOCOL</span>
-              <h2 className="action-title">Seconds Save Lives. Begin Emergency Triage.</h2>
+              <span className="action-kicker">INSTANT EMERGENCY ACCESS</span>
+              <h2 className="action-title">Every Second Counts in a Medical Emergency</h2>
               <p className="action-subtitle">
-                Access immediate hospital recommendations scored specifically for your patient's emergency condition.
+                Select your patient's emergency condition and find the most capable hospital with open beds in under 30 seconds.
               </p>
             </div>
             <button
               className="action-launch-btn"
               onClick={() => navigate('/emergency')}
             >
-              Start Emergency Triage
+              Find Best Hospital Now
             </button>
           </div>
         </div>
@@ -402,14 +398,57 @@ function Home() {
 
       <footer className="home-footer">
         <div className="footer-container">
-          <div className="footer-left">
-            <span className="footer-brand">HLERS</span>
-            <p>HyperLocal Emergency Routing System</p>
+          <div className="footer-main-grid">
+            <div className="footer-col brand-col">
+              <div className="footer-brand-title">HLERS</div>
+              <p className="footer-brand-sub">HyperLocal Emergency Routing System</p>
+              <p className="footer-mission-text">
+                Intelligent emergency dispatch connecting patients to capable hospitals with live ICU beds and on-duty specialists.
+              </p>
+              <div className="footer-system-status">
+                <span className="status-dot-green"></span>
+                <span>All Regional Hospital Hubs Online</span>
+              </div>
+            </div>
+
+            <div className="footer-col">
+              <h4 className="footer-heading">Emergency Triage</h4>
+              <ul className="footer-links-list">
+                <li><a href="/emergency">Heart Attack &amp; Cardiac</a></li>
+                <li><a href="/emergency">Stroke &amp; Brain Care</a></li>
+                <li><a href="/emergency">Severe Accidents &amp; Trauma</a></li>
+                <li><a href="/emergency">Burn Care Emergency</a></li>
+              </ul>
+            </div>
+
+            <div className="footer-col">
+              <h4 className="footer-heading">How It Works</h4>
+              <ul className="footer-links-list">
+                <li><a href="#bento-grid">Live Traffic Routing</a></li>
+                <li><a href="#bento-grid">ICU Bed Tracking</a></li>
+                <li><a href="#bento-grid">Doctor Readiness</a></li>
+                <li><a href="/emergency">Pre-Arrival ER Alerts</a></li>
+              </ul>
+            </div>
+
+            <div className="footer-col hotlines-col">
+              <h4 className="footer-heading">Emergency Hotlines</h4>
+              <div className="hotline-card">
+                <span className="hotline-label">National Medical Emergency</span>
+                <a href="tel:108" className="hotline-number">108</a>
+              </div>
+              <div className="hotline-card">
+                <span className="hotline-label">Police Emergency</span>
+                <a href="tel:100" className="hotline-number sub">100</a>
+              </div>
+            </div>
           </div>
-          <div className="footer-right">
-            <p className="disclaimer-text">
-              HLERS is an emergency decision support system. For life-threatening emergencies requiring immediate ambulance transport, call <strong>108</strong> (India) immediately.
+
+          <div className="footer-bottom-bar">
+            <p className="footer-disclaimer">
+              <strong>Notice:</strong> HLERS is a decision support tool. For life-threatening emergencies needing immediate ambulance support, always call <strong>108</strong> immediately.
             </p>
+            <p className="footer-copyright">© HLERS. Built for instant emergency access.</p>
           </div>
         </div>
       </footer>

@@ -1,5 +1,5 @@
 .home-page {
-  min-height: calc(100vh - 65px);
+  min-height: calc(100vh - 68px);
   display: flex;
   flex-direction: column;
   background-color: var(--teal-bg);
@@ -8,7 +8,7 @@
 }
 
 .hero-section {
-  min-height: calc(100vh - 65px);
+  min-height: calc(100vh - 68px);
   display: flex;
   align-items: center;
   padding: 48px 32px;
@@ -949,7 +949,7 @@
 .home-footer {
   background-color: var(--white);
   border-top: 1px solid var(--border);
-  padding: 32px;
+  padding: 56px 32px 32px 32px;
   margin-top: auto;
 }
 
@@ -957,28 +957,148 @@
   max-width: 1200px;
   margin: 0 auto;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 32px;
-  flex-wrap: wrap;
+  flex-direction: column;
+  gap: 40px;
 }
 
-.footer-brand {
-  font-size: 1.1rem;
+.footer-main-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr 1.1fr;
+  gap: 36px;
+}
+
+.footer-col {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.brand-col {
+  gap: 10px;
+}
+
+.footer-brand-title {
+  font-size: 1.4rem;
+  font-weight: 900;
+  color: var(--teal-dark);
+  letter-spacing: -0.5px;
+}
+
+.footer-brand-sub {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-top: -6px;
+}
+
+.footer-mission-text {
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  max-width: 320px;
+}
+
+.footer-system-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background-color: var(--green-light);
+  padding: 6px 12px;
+  border-radius: var(--radius-full);
+  font-size: 0.74rem;
+  font-weight: 700;
+  color: var(--green);
+  align-self: flex-start;
+  margin-top: 4px;
+}
+
+.status-dot-green {
+  width: 7px;
+  height: 7px;
+  background-color: var(--green);
+  border-radius: 50%;
+  animation: beacon-blink 1.5s infinite;
+}
+
+.footer-heading {
+  font-size: 0.82rem;
   font-weight: 800;
+  color: var(--text-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 4px;
+}
+
+.footer-links-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.footer-links-list li a {
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.footer-links-list li a:hover {
+  color: var(--teal-mid);
+}
+
+.hotlines-col {
+  gap: 10px;
+}
+
+.hotline-card {
+  background-color: var(--teal-bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 10px 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.hotline-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+}
+
+.hotline-number {
+  font-size: 1.1rem;
+  font-weight: 900;
+  color: var(--red);
+  text-decoration: none;
+}
+
+.hotline-number.sub {
   color: var(--teal-dark);
 }
 
-.footer-left p {
-  font-size: 0.78rem;
-  color: var(--text-muted);
+.footer-bottom-bar {
+  padding-top: 24px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+  flex-wrap: wrap;
 }
 
-.disclaimer-text {
+.footer-disclaimer {
   font-size: 0.75rem;
   color: var(--text-secondary);
-  max-width: 540px;
-  line-height: 1.4;
+  max-width: 600px;
+  line-height: 1.45;
+}
+
+.footer-copyright {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-weight: 600;
 }
 
 @media (max-width: 1024px) {
@@ -988,6 +1108,10 @@
 
   .comparison-terminal-deck {
     grid-template-columns: 1fr;
+  }
+
+  .footer-main-grid {
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
@@ -1008,5 +1132,9 @@
 
   .action-launch-btn {
     width: 100%;
+  }
+
+  .footer-main-grid {
+    grid-template-columns: 1fr;
   }
 }
