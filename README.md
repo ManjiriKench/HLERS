@@ -1,68 +1,48 @@
 # HLERS — HyperLocal Emergency Routing System
 
 ## The Problem
-When someone has a medical emergency in India, a heart attack, accident, or stroke, bystanders don't know which hospital can actually help RIGHT NOW. Google Maps shows the nearest hospital, but not whether the ICU is full, whether a cardiologist is available, or how long it will truly take to reach them in current traffic.
+When someone has a medical emergency in India—a heart attack, accident, stroke, or severe trauma—bystanders and families don't know which hospital can actually accept and treat them RIGHT NOW. Google Maps shows nearest facilities, but not ICU bed availability, specialist readiness on duty, or ER operational status.
 
 ## What HLERS Does
-HLERS is a web application that:
-- Lets users report an emergency type (cardiac, trauma, burns, stroke)
-- Detects user location automatically from browser — no address typing
-- Shows nearby hospitals filtered by emergency type and ER open status
-- Calculates real driving ETA for each hospital using Google Maps Directions API
-- Scores each hospital using a weighted ML model (emergency type match + ICU availability + current load + ETA)
-- Recommends the single BEST hospital for that specific emergency
-- Sends a pre-arrival alert to the hospital before the patient arrives
-- Displays results on an interactive Google Maps view with hospital markers.
+HLERS is an emergency-focused hospital recommendation and dispatch web application that:
+- **Categorizes Emergency Types**: Cardiac, stroke, trauma, burns, and general acute emergencies.
+- **Geospatial Proximity Search**: Uses GeoJSON 2dsphere indexing across 32 Pune hospitals spanning 20+ localities.
+- **Real-Time Driving ETA**: Integrates Google Maps API Directions engine for accurate route duration.
+- **ML Scoring Engine**: Normalizes and weights emergency match, ICU availability, occupancy load, and travel time.
+- **Pre-Arrival Telemetry & Dispatch Alert**: Transmits patient telemetry directly to the selected facility.
+- **Live GPS Navigation**: Real-time turn-by-turn guidance with heading-aware ambulance marker tracking.
 
-## Tech Stack
-- **Frontend:** React.js
-- **Backend:** Node.js + Express
-- - **Database:** MongoDB with Mongoose ODM + GeoJSON geospatial indexing
-- - **Maps:** Google Maps API — Directions API returning real ETAs, geospatial hospital search working
-- **ML:** Python + scikit-learn (hospital recommendation scoring)
-- **Security:** Helmet.js, custom NoSQL sanitizer, rate limiting, HPP, input validation
+## System Architecture
+- **Frontend**: React.js + Vite + Leaflet / Google Maps API
+- **Backend**: Node.js + Express + MongoDB (Mongoose ODM with 2dsphere indexing)
+- **ML Engine**: Python + Flask + scikit-learn (`MinMaxScaler` scoring model)
+- **Security & Middleware**: Helmet.js, NoSQL sanitizer, rate limiting, HPP, CORS
 
-## Current Status
-🟡 In active development — Day 33
+## Pune Hospital Dataset (32 Facilities)
+Covers key areas across Pune including Sassoon Road, Erandwane, Kothrud, Hadapsar, PCMC, Baner, Aundh, Shivajinagar, Deccan, Swargate, Sahakarnagar, Bibwewadi, Kondhwa, Wanowrie, Koregaon Park, Viman Nagar, Kharadi, Yerawada, Sinhagad Road, Warje, Pashan, Hinjawadi, and Gangadham.
 
+## Quick Start Guide
 
-✅ Backend complete — Node.js + Express + MongoDB + Google Maps API
-✅ ML scoring layer complete — Python + Flask + scikit-learn
-✅ Frontend complete — React + Vite + Google Maps
-✅ Full end-to-end flow working — Emergency Form → ML Recommendation → Hospital List → Alert
-🟡 In active development — Day 33
-⏳ Coming soon — Mobile responsiveness, deployment, UI redesign
-## Screenshots
-
-### Hospital Results with Google Maps
-- Real-time Google Maps view with hospital markers
-- Live ICU bed count, ETA, specialist availability
-- Pre-arrival alert system
-- Color-coded emergency load indicator
-
-## Live Demo
-Coming soon — deployment in progress
-
-## How to Run Locally
-
-### Backend
+### 1. Backend Server & Database
 ```bash
 cd server
 npm install
-npm run dev
+node seed.js    # Seed 32 Pune hospitals
+npm run dev     # Starts Express server on port 5000
 ```
 
-### Frontend
+### 2. ML Scoring Service
+```bash
+cd ml
+venv\Scripts\activate
+python app.py   # Starts Flask ML service on port 5001
+```
+
+### 3. Frontend Application
 ```bash
 cd client
 npm install
-npm run dev
-```
-
-### Seed Database
-```bash
-cd server
-node seed.js
+npm run dev     # Starts Vite web application
 ```
 
 ## Developer
