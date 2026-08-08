@@ -1,9 +1,11 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useLanguage } from '../context/LanguageContext'
 import './Home.css'
 
 function Home() {
   const navigate = useNavigate()
+  const { t } = useLanguage()
   const [activeSim, setActiveSim] = useState('cardiac')
   const [activeBento, setActiveBento] = useState('traffic')
 
@@ -17,54 +19,42 @@ function Home() {
   const hospitals = {
     cardiac: {
       id: 'cardiac',
-      label: 'Heart Attack',
-      name: 'Heart & ICU Center',
-      tag: 'Cardiac Hub',
+      labelKey: 'home.cardiac',
+      nameKey: 'home.cardiacName',
       eta: '6 Mins (Live Traffic)',
       icu: '4 Open Beds',
       spec: 'Cardiologist On Duty',
       distance: '3.2 km',
-      x: 345,
-      y: 50,
       path: 'M 50,120 C 130,120 180,50 345,50'
     },
     stroke: {
       id: 'stroke',
-      label: 'Stroke / Brain',
-      name: 'Brain & Stroke Bay',
-      tag: 'Neuro ICU',
+      labelKey: 'home.stroke',
+      nameKey: 'home.strokeName',
       eta: '8 Mins (Live Traffic)',
       icu: '3 Open Beds',
       spec: 'Neuro Team Ready',
       distance: '4.7 km',
-      x: 345,
-      y: 190,
       path: 'M 50,120 C 140,120 190,190 345,190'
     },
     trauma: {
       id: 'trauma',
-      label: 'Accident / Injury',
-      name: 'Trauma Emergency Hub',
-      tag: 'Level-1 Trauma',
+      labelKey: 'home.trauma',
+      nameKey: 'home.traumaName',
       eta: '5 Mins (Live Traffic)',
       icu: '5 Open Beds',
       spec: 'Surgeon On Duty',
       distance: '2.8 km',
-      x: 345,
-      y: 120,
       path: 'M 50,120 C 160,120 240,120 345,120'
     },
     burns: {
       id: 'burns',
-      label: 'Burn Emergency',
-      name: 'Specialized Burn Unit',
-      tag: 'Burn ICU',
+      labelKey: 'home.burns',
+      nameKey: 'home.burnsName',
       eta: '11 Mins (Live Traffic)',
       icu: '2 Open Beds',
       spec: 'Burn Team Ready',
       distance: '6.4 km',
-      x: 240,
-      y: 45,
       path: 'M 50,120 C 110,120 170,45 240,45'
     }
   }
@@ -82,44 +72,44 @@ function Home() {
           <div className="hero-text-column">
             <div className="hero-badge">
               <span className="live-pulse"></span>
-              Real-Time Emergency Decision Engine
+              {t('home.heroBadge')}
             </div>
             <h1 className="hero-title">
-              Find the <span className="highlight-teal">right</span> hospital.<br />
-              Not just the <span className="highlight-red">nearest</span> one.
+              {t('home.heroTitle1')}<span className="highlight-teal">{t('home.heroTitleRight')}</span>{t('home.heroTitle2')}<br />
+              {t('home.heroTitle3')}<span className="highlight-red">{t('home.heroTitleNearest')}</span>{t('home.heroTitle4')}
             </h1>
             <p className="hero-description">
-              In critical emergencies like heart attacks, stroke, or accidents, reaching the closest hospital is useless if they have no open ICU beds or the right specialist. HLERS finds you the fastest hospital with ready doctors and open beds.
+              {t('home.heroDesc')}
             </p>
             <div className="hero-cta-group">
               <button
                 className="primary-emergency-btn"
                 onClick={() => navigate('/emergency')}
               >
-                Report Emergency Now
+                {t('home.reportBtn')}
               </button>
               <button
                 className="secondary-info-btn"
                 onClick={() => scrollToSection('comparison-section')}
               >
-                How It Works
+                {t('home.howItWorksBtn')}
               </button>
             </div>
 
             <div className="hero-metrics">
               <div className="metric-item">
-                <span className="metric-val">&lt; 30s</span>
-                <span className="metric-lbl">Decision Speed</span>
+                <span className="metric-val">{t('home.speedVal')}</span>
+                <span className="metric-lbl">{t('home.speedLbl')}</span>
               </div>
               <div className="metric-divider"></div>
               <div className="metric-item">
-                <span className="metric-val">Live</span>
-                <span className="metric-lbl">Bed Tracking</span>
+                <span className="metric-val">{t('home.bedVal')}</span>
+                <span className="metric-lbl">{t('home.bedLbl')}</span>
               </div>
               <div className="metric-divider"></div>
               <div className="metric-item">
-                <span className="metric-val">100%</span>
-                <span className="metric-lbl">Traffic-Aware</span>
+                <span className="metric-val">{t('home.trafficVal')}</span>
+                <span className="metric-lbl">{t('home.trafficLbl')}</span>
               </div>
             </div>
           </div>
@@ -129,7 +119,7 @@ function Home() {
               <div className="sim-header">
                 <div className="sim-header-left">
                   <span className="sim-radar-dot"></span>
-                  <span className="sim-header-title">LIVE MULTI-HOSPITAL ROUTING</span>
+                  <span className="sim-header-title">{t('home.simTitle')}</span>
                 </div>
                 <div className="sim-tabs-group">
                   {Object.keys(hospitals).map((key) => (
@@ -138,7 +128,7 @@ function Home() {
                       className={`sim-tab-pill ${activeSim === key ? 'active' : ''}`}
                       onClick={() => setActiveSim(key)}
                     >
-                      {hospitals[key].label.toUpperCase()}
+                      {t(hospitals[key].labelKey)}
                     </button>
                   ))}
                 </div>
@@ -149,7 +139,7 @@ function Home() {
 
                 <div className="sim-node origin-node">
                   <div className="node-pulse"></div>
-                  <div className="node-label">Your Location</div>
+                  <div className="node-label">{t('home.yourLocation')}</div>
                 </div>
 
                 <svg className="sim-route-svg" viewBox="0 0 400 240" preserveAspectRatio="none">
@@ -183,7 +173,7 @@ function Home() {
                       onClick={() => setActiveSim(key)}
                     >
                       <div className={`dest-glow ${isSelected ? 'selected-glow' : 'idle-glow'}`}></div>
-                      <div className="node-label">{hosp.name}</div>
+                      <div className="node-label">{t(hosp.nameKey)}</div>
                     </div>
                   )
                 })}
@@ -191,15 +181,15 @@ function Home() {
 
               <div className="sim-telemetry slate-telemetry">
                 <div className="telem-item">
-                  <span className="telem-lbl">DRIVE DURATION</span>
+                  <span className="telem-lbl">{t('home.driveDuration')}</span>
                   <span className="telem-val">{currentHospital.eta}</span>
                 </div>
                 <div className="telem-item">
-                  <span className="telem-lbl">ICU BEDS</span>
+                  <span className="telem-lbl">{t('home.icuBeds')}</span>
                   <span className="telem-val green">{currentHospital.icu}</span>
                 </div>
                 <div className="telem-item">
-                  <span className="telem-lbl">DOCTOR STATUS</span>
+                  <span className="telem-lbl">{t('home.doctorStatus')}</span>
                   <span className="telem-val green">{currentHospital.spec}</span>
                 </div>
               </div>
@@ -211,78 +201,78 @@ function Home() {
       <section id="comparison-section" className="terminal-comparison-section">
         <div className="section-container">
           <div className="section-header-compact">
-            <div className="section-kicker">THE CRITICAL DIFFERENCE</div>
-            <h2 className="section-heading">Why Regular Maps Are Not Enough in Emergencies</h2>
-            <p className="section-subtext">Driving to the closest building without knowing if they have beds causes fatal delays.</p>
+            <div className="section-kicker">{t('home.comparisonKicker')}</div>
+            <h2 className="section-heading">{t('home.comparisonHeading')}</h2>
+            <p className="section-subtext">{t('home.comparisonSubtext')}</p>
           </div>
 
           <div className="comparison-terminal-deck">
             <div className="terminal-card legacy-terminal">
               <div className="terminal-top-bar">
-                <span className="terminal-status red">REGULAR MAP APPS</span>
-                <span className="terminal-label">Nearest Location Only</span>
+                <span className="terminal-status red">{t('home.legacyStatus')}</span>
+                <span className="terminal-label">{t('home.legacySub')}</span>
               </div>
 
               <div className="terminal-content">
-                <h3 className="terminal-title">The "Closest Building" Problem</h3>
-                <p className="terminal-summary">Regular maps guide you only by distance and know nothing about hospital readiness.</p>
+                <h3 className="terminal-title">{t('home.legacyTitle')}</h3>
+                <p className="terminal-summary">{t('home.legacyDesc')}</p>
 
                 <div className="terminal-scenario-box warning">
                   <div className="scenario-row">
-                    <span className="scenario-label">Driving Time:</span>
-                    <span className="scenario-value">4 Mins (Closest)</span>
+                    <span className="scenario-label">{t('home.drivingTime')}</span>
+                    <span className="scenario-value">{t('home.legacyDrive')}</span>
                   </div>
                   <div className="scenario-row">
-                    <span className="scenario-label">ICU Beds:</span>
-                    <span className="scenario-value red-text">0 Beds (Hospital Full)</span>
+                    <span className="scenario-label">{t('home.icuBeds')}:</span>
+                    <span className="scenario-value red-text">{t('home.legacyBeds')}</span>
                   </div>
                   <div className="scenario-row">
-                    <span className="scenario-label">Specialist:</span>
-                    <span className="scenario-value red-text">Doctor Not Available</span>
+                    <span className="scenario-label">{t('home.specialist')}</span>
+                    <span className="scenario-value red-text">{t('home.legacySpec')}</span>
                   </div>
                   <div className="scenario-outcome red">
-                    Danger: Patient is turned away and must find another hospital (20+ mins lost)
+                    {t('home.legacyOutcome')}
                   </div>
                 </div>
 
                 <ul className="terminal-list">
-                  <li>No way of checking bed capacity before you drive</li>
-                  <li>No pre-alert sent to doctors before you arrive</li>
+                  <li>{t('home.legacyLi1')}</li>
+                  <li>{t('home.legacyLi2')}</li>
                 </ul>
               </div>
             </div>
 
             <div className="terminal-card hlers-terminal">
               <div className="terminal-top-bar">
-                <span className="terminal-status teal">HLERS EMERGENCY SYSTEM</span>
-                <span className="terminal-label highlight">Ready &amp; Capable</span>
+                <span className="terminal-status teal">{t('home.hlersStatus')}</span>
+                <span className="terminal-label highlight">{t('home.hlersSub')}</span>
               </div>
 
               <div className="terminal-content">
-                <h3 className="terminal-title">The "Ready &amp; Capable" Solution</h3>
-                <p className="terminal-summary">Finds the fastest hospital that actually has open beds and the right doctors on duty.</p>
+                <h3 className="terminal-title">{t('home.hlersTitle')}</h3>
+                <p className="terminal-summary">{t('home.hlersDesc')}</p>
 
                 <div className="terminal-scenario-box success">
                   <div className="scenario-row">
-                    <span className="scenario-label">Driving Time:</span>
-                    <span className="scenario-value">6 Mins (Live Traffic)</span>
+                    <span className="scenario-label">{t('home.drivingTime')}</span>
+                    <span className="scenario-value">{t('home.hlersDrive')}</span>
                   </div>
                   <div className="scenario-row">
-                    <span className="scenario-label">ICU Beds:</span>
-                    <span className="scenario-value green-text">4 Open Beds Guaranteed</span>
+                    <span className="scenario-label">{t('home.icuBeds')}:</span>
+                    <span className="scenario-value green-text">{t('home.hlersBeds')}</span>
                   </div>
                   <div className="scenario-row">
-                    <span className="scenario-label">Specialist:</span>
-                    <span className="scenario-value green-text">Doctor Alerted &amp; Ready</span>
+                    <span className="scenario-label">{t('home.specialist')}</span>
+                    <span className="scenario-value green-text">{t('home.hlersSpec')}</span>
                   </div>
                   <div className="scenario-outcome green">
-                    Result: Immediate treatment upon arrival with zero wasted time
+                    {t('home.hlersOutcome')}
                   </div>
                 </div>
 
                 <ul className="terminal-list highlight">
-                  <li>Direct alert sent to the emergency room desk</li>
-                  <li>Turn-by-turn live navigation directly to emergency gates</li>
+                  <li>{t('home.hlersLi1')}</li>
+                  <li>{t('home.hlersLi2')}</li>
                 </ul>
               </div>
             </div>
@@ -293,9 +283,9 @@ function Home() {
       <section id="bento-grid" className="bento-showcase-section">
         <div className="section-container">
           <div className="section-header-compact">
-            <div className="section-kicker">THREE PROTECTIONS IN EVERY EMERGENCY</div>
-            <h2 className="section-heading">How HLERS Finds Your Best Hospital</h2>
-            <p className="section-subtext">We check three critical life-saving factors in real time before recommending any facility.</p>
+            <div className="section-kicker">{t('home.bentoKicker')}</div>
+            <h2 className="section-heading">{t('home.bentoHeading')}</h2>
+            <p className="section-subtext">{t('home.bentoSubtext')}</p>
           </div>
 
           <div className="bento-grid-layout">
@@ -305,33 +295,33 @@ function Home() {
             >
               <div className="bento-card-bg-glow glow-teal"></div>
               <div className="bento-top-row">
-                <span className="bento-tag">STEP 1 · TRAFFIC NAVIGATION</span>
-                <span className="bento-live-badge">Live Maps Sync</span>
+                <span className="bento-tag">{t('home.step1Tag')}</span>
+                <span className="bento-live-badge">{t('home.step1Badge')}</span>
               </div>
 
               <div className="bento-body">
-                <h3 className="bento-title">Fastest Route With Live Traffic</h3>
+                <h3 className="bento-title">{t('home.step1Title')}</h3>
                 <p className="bento-description">
-                  Calculates the quickest driving route to every nearby hospital using live Google Maps traffic so you avoid roadblocks and traffic jams.
+                  {t('home.step1Desc')}
                 </p>
 
                 <div className="bento-interactive-graphic route-graphic">
                   <div className="mini-telemetry-bar">
                     <div className="mini-telem-point">
                       <span className="dot origin"></span>
-                      <span>You</span>
+                      <span>{t('home.yourLocation')}</span>
                     </div>
                     <div className="mini-telem-line">
                       <span className="traveling-pulse"></span>
                     </div>
                     <div className="mini-telem-point">
                       <span className="dot dest"></span>
-                      <span>Hospital ER</span>
+                      <span>{t('home.cardiacName')}</span>
                     </div>
                   </div>
                   <div className="mini-speed-readout">
-                    <span>Live Traffic Analysis: <strong>Avoids Roadblocks</strong></span>
-                    <span className="latency-pill">Instant Routing</span>
+                    <span>{t('home.step1Analysis')} <strong>{t('home.step1Avoids')}</strong></span>
+                    <span className="latency-pill">{t('home.step1Instant')}</span>
                   </div>
                 </div>
               </div>
@@ -343,20 +333,20 @@ function Home() {
             >
               <div className="bento-card-bg-glow glow-green"></div>
               <div className="bento-top-row">
-                <span className="bento-tag">STEP 2 · BED AVAILABILITY</span>
-                <span className="bento-metric-pill">Real-Time</span>
+                <span className="bento-tag">{t('home.step2Tag')}</span>
+                <span className="bento-metric-pill">{t('home.step2Badge')}</span>
               </div>
 
               <div className="bento-body">
-                <h3 className="bento-title">Guarantees Open ICU Beds</h3>
+                <h3 className="bento-title">{t('home.step2Title')}</h3>
                 <p className="bento-description">
-                  Checks available intensive care beds and emergency equipment before you travel, so you never arrive at a full hospital.
+                  {t('home.step2Desc')}
                 </p>
 
                 <div className="bento-interactive-graphic icu-graphic">
                   <div className="icu-meter-header">
-                    <span>Emergency ICU Capacity</span>
-                    <strong className="green-text">Verified Open</strong>
+                    <span>{t('home.step2MeterHeader')}</span>
+                    <strong className="green-text">{t('home.step2Verified')}</strong>
                   </div>
                   <div className="segmented-capacity-bar">
                     <div className="cap-segment filled"></div>
@@ -367,8 +357,8 @@ function Home() {
                     <div className="cap-segment empty"></div>
                   </div>
                   <div className="meter-footer">
-                    <span>4 Critical Care Beds Ready</span>
-                    <span>Status: <strong>Available</strong></span>
+                    <span>{t('home.step2MeterFooter1')}</span>
+                    <span>Status: <strong>{t('home.step2MeterFooter2')}</strong></span>
                   </div>
                 </div>
               </div>
@@ -380,32 +370,32 @@ function Home() {
             >
               <div className="bento-card-bg-glow glow-blue"></div>
               <div className="bento-top-row">
-                <span className="bento-tag">STEP 3 · DOCTOR READINESS</span>
-                <span className="bento-metric-pill">On Duty</span>
+                <span className="bento-tag">{t('home.step3Tag')}</span>
+                <span className="bento-metric-pill">{t('home.step3Badge')}</span>
               </div>
 
               <div className="bento-body">
-                <h3 className="bento-title">Ensures the Right Doctor Is There</h3>
+                <h3 className="bento-title">{t('home.step3Title')}</h3>
                 <p className="bento-description">
-                  Confirms that heart doctors, brain specialists, or trauma surgeons are actively on duty and ready to treat the patient immediately.
+                  {t('home.step3Desc')}
                 </p>
 
                 <div className="bento-interactive-graphic specialist-graphic">
                   <div className="spec-badge-stack">
                     <div className="spec-item active">
                       <span className="spec-status-dot"></span>
-                      <span>Heart Specialist</span>
-                      <span className="spec-state">Ready</span>
+                      <span>{t('home.docHeart')}</span>
+                      <span className="spec-state">{t('home.docReady')}</span>
                     </div>
                     <div className="spec-item active">
                       <span className="spec-status-dot"></span>
-                      <span>Brain &amp; Stroke Doctor</span>
-                      <span className="spec-state">Ready</span>
+                      <span>{t('home.docBrain')}</span>
+                      <span className="spec-state">{t('home.docReady')}</span>
                     </div>
                     <div className="spec-item standby">
                       <span className="spec-status-dot standby"></span>
-                      <span>Trauma Surgeon</span>
-                      <span className="spec-state">On Duty</span>
+                      <span>{t('home.docTrauma')}</span>
+                      <span className="spec-state">{t('home.docOnDuty')}</span>
                     </div>
                   </div>
                 </div>
@@ -420,44 +410,44 @@ function Home() {
           <div className="footer-main-grid">
             <div className="footer-col brand-col">
               <div className="footer-brand-title">HLERS</div>
-              <p className="footer-brand-sub">HyperLocal Emergency Routing System</p>
+              <p className="footer-brand-sub">{t('home.footerBrandSub')}</p>
               <p className="footer-mission-text">
-                Intelligent emergency dispatch connecting patients to capable hospitals with live ICU beds and on-duty specialists.
+                {t('home.footerMission')}
               </p>
               <div className="footer-system-status">
                 <span className="status-dot-green"></span>
-                <span>All Regional Hospital Hubs Online</span>
+                <span>{t('home.footerHubsOnline')}</span>
               </div>
             </div>
 
             <div className="footer-col">
-              <h4 className="footer-heading">Emergency Triage</h4>
+              <h4 className="footer-heading">{t('home.footerTriageHeading')}</h4>
               <ul className="footer-links-list">
-                <li><a href="/emergency">Heart Attack &amp; Cardiac</a></li>
-                <li><a href="/emergency">Stroke &amp; Brain Care</a></li>
-                <li><a href="/emergency">Severe Accidents &amp; Trauma</a></li>
-                <li><a href="/emergency">Burn Care Emergency</a></li>
+                <li><a href="/emergency">{t('home.cardiac')}</a></li>
+                <li><a href="/emergency">{t('home.stroke')}</a></li>
+                <li><a href="/emergency">{t('home.trauma')}</a></li>
+                <li><a href="/emergency">{t('home.burns')}</a></li>
               </ul>
             </div>
 
             <div className="footer-col">
-              <h4 className="footer-heading">How It Works</h4>
+              <h4 className="footer-heading">{t('home.footerHowItWorksHeading')}</h4>
               <ul className="footer-links-list">
-                <li><a href="#bento-grid">Live Traffic Routing</a></li>
-                <li><a href="#bento-grid">ICU Bed Tracking</a></li>
-                <li><a href="#bento-grid">Doctor Readiness</a></li>
-                <li><a href="/emergency">Pre-Arrival ER Alerts</a></li>
+                <li><a href="#bento-grid">{t('home.step1Title')}</a></li>
+                <li><a href="#bento-grid">{t('home.step2Title')}</a></li>
+                <li><a href="#bento-grid">{t('home.step3Title')}</a></li>
+                <li><a href="/emergency">{t('home.hlersLi1')}</a></li>
               </ul>
             </div>
 
             <div className="footer-col hotlines-col">
-              <h4 className="footer-heading">Emergency Hotlines</h4>
+              <h4 className="footer-heading">{t('home.footerHotlinesHeading')}</h4>
               <div className="hotline-card">
-                <span className="hotline-label">National Medical Emergency</span>
+                <span className="hotline-label">{t('home.hotlineNational')}</span>
                 <a href="tel:108" className="hotline-number">108</a>
               </div>
               <div className="hotline-card">
-                <span className="hotline-label">Police Emergency</span>
+                <span className="hotline-label">{t('home.hotlinePolice')}</span>
                 <a href="tel:100" className="hotline-number sub">100</a>
               </div>
             </div>
@@ -465,9 +455,9 @@ function Home() {
 
           <div className="footer-bottom-bar">
             <p className="footer-disclaimer">
-              <strong>Notice:</strong> HLERS is a decision support tool. For life-threatening emergencies needing immediate ambulance support, always call <strong>108</strong> immediately.
+              <strong>{t('home.footerNotice')}</strong> {t('home.footerNoticeText')}
             </p>
-            <p className="footer-copyright">© HLERS. Built for instant emergency access.</p>
+            <p className="footer-copyright">{t('home.footerCopyright')}</p>
           </div>
         </div>
       </footer>

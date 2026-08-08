@@ -1,5 +1,6 @@
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useState } from 'react'
+import { useLanguage } from '../context/LanguageContext'
 import { sendAlert } from '../services/api'
 import './HospitalList.css'
 import MapView from '../components/MapView'
@@ -7,6 +8,7 @@ import MapView from '../components/MapView'
 function HospitalList() {
   const location = useLocation()
   const navigate = useNavigate()
+  const { t } = useLanguage()
   const { hospitals, emergencyType, userLocation, recommendation, patientAge, notes } = location.state || {}
   const [alertError, setAlertError] = useState('')
   const [dispatchingHospital, setDispatchingHospital] = useState(null)
@@ -75,7 +77,7 @@ function HospitalList() {
               ← Re-triage Emergency
             </button>
             <div className="badge-group">
-              <span className="live-status-pill">Live Dispatch Ready</span>
+              <span className="live-status-pill">{t('hospitalList.verifiedReady')}</span>
               <span className="emergency-type-badge">
                 {emergencyType?.toUpperCase() || 'EMERGENCY'}
               </span>
@@ -87,7 +89,7 @@ function HospitalList() {
           <div className="hero-hospital-section">
             <div className="hero-rec-card">
               <div className="hero-badge-row">
-                <span className="top-choice-tag">#1 BEST MATCHED HOSPITAL</span>
+                <span className="top-choice-tag">#1 {t('hospitalList.sortBest').toUpperCase()}</span>
                 {primaryHospital.hlers_score && (
                   <span className="ml-score-pill">ML Match Score: {primaryHospital.hlers_score}</span>
                 )}
@@ -99,17 +101,17 @@ function HospitalList() {
               <div className="hero-stats-grid">
                 <div className="hero-stat-box highlight">
                   <span className="stat-value">{primaryHospital.eta?.duration || 'N/A'}</span>
-                  <span className="stat-label">Driving ETA</span>
+                  <span className="stat-label">{t('hospitalList.sortFastest')}</span>
                 </div>
                 <div className="hero-stat-box">
                   <span className="stat-value">{primaryHospital.eta?.distance || 'N/A'}</span>
-                  <span className="stat-label">Distance</span>
+                  <span className="stat-label">{t('hospitalList.distanceAway')}</span>
                 </div>
                 <div className="hero-stat-box">
                   <span className={`stat-value ${primaryHospital.availableICUBeds === 0 ? 'red-text' : 'green-text'}`}>
                     {primaryHospital.availableICUBeds}/{primaryHospital.totalICUBeds}
                   </span>
-                  <span className="stat-label">ICU Beds</span>
+                  <span className="stat-label">{t('hospitalList.bedsAvailable')}</span>
                 </div>
                 <div className="hero-stat-box">
                   <span className="stat-value">{primaryHospital.currentLoad}/10</span>
@@ -119,7 +121,7 @@ function HospitalList() {
 
               {primaryHospital.specialists && primaryHospital.specialists.length > 0 && (
                 <div className="hero-specialists-group">
-                  <span className="hero-spec-label">Verified Specialists On Duty:</span>
+                  <span className="hero-spec-label">{t('hospitalList.specialistOnDuty')}:</span>
                   <div className="hero-spec-tags">
                     {primaryHospital.specialists.map((spec) => (
                       <span
@@ -138,7 +140,7 @@ function HospitalList() {
                 onClick={() => handleAlert(primaryHospital)}
                 disabled={!!dispatchingHospital}
               >
-                Alert Emergency Dept Now
+                {t('hospitalList.directAlertBtn')}
               </button>
             </div>
           </div>
@@ -166,7 +168,7 @@ function HospitalList() {
                       onClick={() => handleAlert(hospital)}
                       disabled={!!dispatchingHospital}
                     >
-                      Alert Hospital
+                      {t('hospitalList.directAlertBtn')}
                     </button>
                   </div>
                 ))}
@@ -178,7 +180,7 @@ function HospitalList() {
         <div className="right-map-panel">
           <div className="map-layer-badge">
             <span className="map-radar-pulse"></span>
-            Live Google Maps Traffic &amp; Route Layer
+            {t('hospitalList.viewMap')}
           </div>
           <MapView hospitals={hospitals} userLocation={userLocation} />
         </div>

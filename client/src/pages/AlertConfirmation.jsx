@@ -1,11 +1,13 @@
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useState } from 'react'
+import { useLanguage } from '../context/LanguageContext'
 import './AlertConfirmation.css'
 import MapView from '../components/MapView'
 
 function AlertConfirmation() {
   const location = useLocation()
   const navigate = useNavigate()
+  const { t } = useLanguage()
   const { hospital: initialHospital, allHospitals, emergencyType, userLocation, patientAge, notes } = location.state || {}
   const [activeHospital, setActiveHospital] = useState(initialHospital)
   const [isNavigating, setIsNavigating] = useState(false)
@@ -61,7 +63,7 @@ function AlertConfirmation() {
       <div className="confirmation-top-banner">
         <div className="banner-left">
           <span className="live-alert-beacon"></span>
-          <span className="banner-main-title">Emergency Dispatch Confirmed</span>
+          <span className="banner-main-title">{t('alertConfirm.alertSuccessTitle')}</span>
         </div>
         <div className="banner-right">
           <span className="eta-badge">ETA: {activeHospital.eta?.duration || '6 mins'}</span>
@@ -72,7 +74,7 @@ function AlertConfirmation() {
         <div className="confirm-left-panel">
           <div className="change-alert-bar">
             <button onClick={handleBackToHospitals} className="change-alert-action-btn">
-              ← Change Hospital Alert
+              ← {t('alertConfirm.cancelAlertBtn')}
             </button>
           </div>
 
@@ -90,12 +92,12 @@ function AlertConfirmation() {
               </div>
               <div className="essential-stat">
                 <span className="stat-num">{activeHospital.availableICUBeds} Beds</span>
-                <span className="stat-lbl">ICU Open</span>
+                <span className="stat-lbl">{t('alertConfirm.bedStatusLabel')}</span>
               </div>
             </div>
 
             <div className="patient-triage-pill">
-              <span className="triage-label">Condition:</span>
+              <span className="triage-label">{t('alertConfirm.conditionLabel')}:</span>
               <span className="triage-val">
                 {emergencyType?.toUpperCase()} {patientAge ? `(${patientAge} yrs)` : ''}
               </span>
@@ -110,11 +112,11 @@ function AlertConfirmation() {
             <div className="emergency-actions-row">
               {activeHospital.phone && (
                 <a href={`tel:${activeHospital.phone}`} className="call-er-btn">
-                  Call ER Desk
+                  {t('hospitalList.callDesk')}
                 </a>
               )}
               <a href="tel:108" className="call-108-btn">
-                Call 108 Hotline
+                {t('nav.helpline')}
               </a>
             </div>
           </div>
@@ -172,7 +174,7 @@ function AlertConfirmation() {
               </div>
               <div className="smart-nav-text">
                 <span className="smart-nav-title">
-                  {isNavigating ? 'LIVE GPS ACTIVE' : 'START NAVIGATION'}
+                  {isNavigating ? 'LIVE GPS ACTIVE' : t('alertConfirm.startNavBtn')}
                 </span>
                 <span className="smart-nav-sub">
                   {isNavigating

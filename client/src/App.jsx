@@ -1,4 +1,5 @@
 import { Routes, Route } from 'react-router-dom'
+import { LanguageProvider } from './context/LanguageContext'
 import Navbar from './components/Navbar'
 import Home from './pages/Home'
 import EmergencyForm from './pages/EmergencyForm'
@@ -8,7 +9,7 @@ import NotFound from './pages/NotFound'
 
 function App() {
   return (
-    <>
+    <LanguageProvider>
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
@@ -17,7 +18,7 @@ function App() {
         <Route path="/alert-confirmation" element={<AlertConfirmation />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
-    </>
+    </LanguageProvider>
   )
 }
 

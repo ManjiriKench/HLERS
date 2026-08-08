@@ -1,11 +1,13 @@
 import './EmergencyForm.css'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useLanguage } from '../context/LanguageContext'
 import { findNearbyHospitals, createEmergencyRequest } from '../services/api'
 import LoadingSpinner from '../components/LoadingSpinner'
 
 function EmergencyForm() {
   const navigate = useNavigate()
+  const { t } = useLanguage()
   const [emergencyType, setEmergencyType] = useState('')
   const [patientAge, setPatientAge] = useState('')
   const [notes, setNotes] = useState('')
@@ -16,11 +18,11 @@ function EmergencyForm() {
   const [error, setError] = useState('')
 
   const emergencyOptions = [
-    { id: 'cardiac', label: 'Cardiac Emergency', desc: 'Heart attack, chest pain, cardiac arrest', icon: '🫀', protocol: 'Direct Cath-Lab & Cardiologist Sync' },
-    { id: 'stroke', label: 'Stroke / Brain Emergency', desc: 'Paralysis, face drooping, speech difficulty', icon: '🧠', protocol: 'Immediate CT/MRI & Stroke Team Mobilization' },
-    { id: 'trauma', label: 'Severe Trauma / Accident', desc: 'Major bleeding, fractures, vehicle crash', icon: '🩸', protocol: 'Trauma Bay & Ortho/Surgeon Standby' },
-    { id: 'burns', label: 'Severe Burns', desc: 'Fire, thermal, chemical, electrical burn', icon: '🔥', protocol: 'Specialized Burn ICU Protocol' },
-    { id: 'other', label: 'General Emergency', desc: 'Severe breathing distress, poisoning, acute illness', icon: '🚑', protocol: 'Rapid Acute ER Bed Allocation' }
+    { id: 'cardiac', labelKey: 'emergencyForm.condCardiacTitle', descKey: 'emergencyForm.condCardiacDesc', icon: '🫀', protocol: 'Direct Cath-Lab & Cardiologist Sync' },
+    { id: 'stroke', labelKey: 'emergencyForm.condStrokeTitle', descKey: 'emergencyForm.condStrokeDesc', icon: '🧠', protocol: 'Immediate CT/MRI & Stroke Team Mobilization' },
+    { id: 'trauma', labelKey: 'emergencyForm.condTraumaTitle', descKey: 'emergencyForm.condTraumaDesc', icon: '🩸', protocol: 'Trauma Bay & Ortho/Surgeon Standby' },
+    { id: 'burns', labelKey: 'emergencyForm.condBurnsTitle', descKey: 'emergencyForm.condBurnsDesc', icon: '🔥', protocol: 'Specialized Burn ICU Protocol' },
+    { id: 'other', labelKey: 'emergencyForm.condGeneralTitle', descKey: 'emergencyForm.condGeneralDesc', icon: '🚑', protocol: 'Rapid Acute ER Bed Allocation' }
   ]
 
   const selectedOpt = emergencyOptions.find(o => o.id === emergencyType)
@@ -109,8 +111,8 @@ function EmergencyForm() {
             </button>
             <div className="step-tag">STEP 1</div>
           </div>
-          <h2 className="step-title">Select Emergency Condition</h2>
-          <p className="step-subtitle">Click the category that matches the patient's condition:</p>
+          <h2 className="step-title">{t('emergencyForm.step1Title')}</h2>
+          <p className="step-subtitle">{t('emergencyForm.headerSub')}</p>
 
           <div className="horizontal-options-list">
             {emergencyOptions.map((opt) => (
@@ -121,8 +123,8 @@ function EmergencyForm() {
               >
                 <span className="opt-icon">{opt.icon}</span>
                 <div className="opt-text">
-                  <span className="opt-title">{opt.label}</span>
-                  <span className="opt-desc">{opt.desc}</span>
+                  <span className="opt-title">{t(opt.labelKey)}</span>
+                  <span className="opt-desc">{t(opt.descKey)}</span>
                 </div>
                 <div className="opt-radio">
                   {emergencyType === opt.id && <span className="radio-dot"></span>}
@@ -143,8 +145,8 @@ function EmergencyForm() {
 
         <div className="right-dispatch-panel">
           <div className="step-tag">STEP 2 &amp; 3</div>
-          <h2 className="step-title">Patient &amp; Location</h2>
-          <p className="step-subtitle">Enter details to calculate driving ETA and bed capacity:</p>
+          <h2 className="step-title">{t('emergencyForm.step3Title')}</h2>
+          <p className="step-subtitle">{t('emergencyForm.locPlaceholder')}</p>
 
           <div className="input-group">
             <label className="input-label">Patient Age (Years) *</label>
@@ -170,10 +172,10 @@ function EmergencyForm() {
               {locating ? (
                 <>
                   <span className="radar-spinner-dot"></span>
-                  <span className="radar-sweep-text">Acquiring High-Precision GPS...</span>
+                  <span className="radar-sweep-text">{t('emergencyForm.gpsLocating')}</span>
                 </>
               ) : location ? (
-                'GPS Coordinates Locked'
+                t('emergencyForm.gpsLocked')
               ) : (
                 'Detect My Current Location'
               )}
@@ -210,7 +212,7 @@ function EmergencyForm() {
             onClick={handleSubmit}
             disabled={loading}
           >
-            {loading ? <LoadingSpinner /> : 'Find & Score Best Hospitals'}
+            {loading ? <LoadingSpinner /> : t('emergencyForm.findBtn')}
           </button>
         </div>
       </div>
