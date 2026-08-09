@@ -4,7 +4,7 @@ const getMLScores = async (hospitals, emergencyType) => {
   try {
     const response = await axios({
       method: 'post',
-      url: 'http://localhost:5001/score',
+      url: process.env.ML_SERVICE_URL || 'http://localhost:5001/score',
       data: {
         hospitals,
         emergencyType
